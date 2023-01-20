@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class EducationCenter(models.Model):
-    # logo = models.ImageField(upload_to='logo/')
+    logo = models.ImageField(upload_to='logo/')
     name = models.CharField(max_length=256)
     password = models.CharField(max_length=128)    
     admins = models.ManyToManyField(User)

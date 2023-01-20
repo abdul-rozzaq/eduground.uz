@@ -6,65 +6,75 @@ from home.models import *
 
 def home_page(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
-    if ec_id:        
+    if ec_id:
         ec = EducationCenter.objects.get(pk=ec_id)
         if request.user.is_authenticated:
 
-            return render(request, 'index.html', {'ec': ec})
+            return render(request, 'tabs/index.html', {'ec': ec})
 
         else:
-            return redirect('user-login')    
+            return redirect('user-login')
     else:
         return redirect('ec-login')
 
 
-def peoples_page(request: WSGIRequest):
+def peoples(request):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     peoples = People.objects.filter(ec__id=ec_id)
-    
-    context = {'peoples' : peoples, 'ec' : ec}
 
-    return render(request, 'peoples.html', context)
+    context = {
+        'peoples': peoples,
+        'ec': ec,
+        'page_name' : 'Talaba',
+    }
 
-
-def people_page(request: WSGIRequest, pk: int):
-    if 'edit' in request.GET:
-        pass
-    elif 'delete' in request.GET:
-        pass
-
-
-    return redirect('home-page')
-
-
-
-
-def peoples(request):
-    peoples = People.objects.all()
-    return render(request, 'peoples.html',{
-        'peoples':peoples
-    })
-
+    return render(request, 'tabs/peoples.html', context)
 
 
 def teachers(request):
-    
-    return render(request, 'teachers.html',{})
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    context = {
+        'ec': ec,
+        'page_name' : 'O\'qituvchi',
+    }
+    return render(request, 'tabs/teachers.html', context)
 
 
 def course(request):
-    return render(request, 'course.html',{})
-
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    context = {
+        'ec': ec,
+        'page_name' : 'Kurs',
+    }
+    return render(request, 'tabs/course.html', context)
 
 
 def group(request):
-    return render(request,'group.html')
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    context = {
+        'ec': ec,
+        'page_name' : 'Guruh',
+    }
+    return render(request, 'tabs/group.html', context)
 
 
-def moliya(request):
-    return render(request,'moliya.html',{})
+def finance(request):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    context = {
+        'ec': ec,
+    }
+    return render(request, 'tabs/finance.html', context)
 
 
 def settings(request):
-    return render(request, 'settings.html',{})
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    context = {
+        'ec': ec,
+    }
+    return render(request, 'tabs/settings.html', context)

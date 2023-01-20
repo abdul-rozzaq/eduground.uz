@@ -9,9 +9,7 @@ urlpatterns = [
     path("teachers/", teachers, name='teachers'),
     path('courses/', course, name='course'),
     path('group', group, name='group'),
-    path('moliya/', moliya, name='moliya'),
+    path('finance/', finance, name='finance'),
     path('settings', settings, name='settings'),
-    path('peoples/', peoples_page, name='peoples-page'),
-    path('people/<int:pk>/', people_page, name='people-page'),
 ]
 
