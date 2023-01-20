@@ -5,3 +5,4 @@ __pycache__
 *.pyc
 *.sqlite3
 migrations
+assets
