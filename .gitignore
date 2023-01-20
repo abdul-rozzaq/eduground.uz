@@ -1,0 +1,7 @@
+CACHE
+__pycache__
+.vscode
+.idea
+*.pyc
+*.sqlite3
+migrations

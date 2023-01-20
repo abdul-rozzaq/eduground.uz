@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Talabalar{% endblock %}
+
+
+{% block content %}
+    {% for people in peoples %}
+        <p>
+            {{ people.full_name  }} 
+        {{ people.phone }}
+        {{ people.birthday }}
+        {{ people.balance }}
+        </p>
+    {% endfor %}
+{% endblock %}

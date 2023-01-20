@@ -1,0 +1,39 @@
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>
+        Wellcome to <u>{{ ec.name }}</u>
+    </h1>
+
+    <form method="post">{% csrf_token %}
+        <div>User
+            <select name="username">
+                {% for i in ec.admins.all %}
+                    <option value="{{ i.username }}">{{ i.username }}</option>
+                {% endfor %}
+            </select>
+        </div><br>
+        <div>Password
+            <input type="password" name="password">
+        </div><br>
+
+        
+        <button>Submit</button>
+
+    </form>
+
+    {% if error %}
+    <ul>
+        <li>{{ error }}</li>
+    </ul>
+    {% endif %}
+
+</body>
+</html>

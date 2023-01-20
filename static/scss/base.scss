@@ -1,0 +1,18 @@
+.card 
+{
+    width: 250px;
+    height: 250px;
+}
+
+.app-wrapper {
+    padding: 10px;
+    transition: none !important;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .card {}
+}

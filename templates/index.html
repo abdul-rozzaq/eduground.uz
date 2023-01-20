@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load compress %}
+
+
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
+{% endblock %}
+
+
+{% block content %}
+<style>
+
+</style>
+    <div class="wrapper">
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+        <div class="card">lor</div>
+    </div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% load compress %}
+{% load static %}<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="{% static 'css/base.css' %}"> -->
+    {% compress css %}
+    <link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
+
+    <title>Document</title>
+
+</head>
+<body>
+    <h1>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, soluta?
+        <a href="{% url 'logout' %}">logout</a>
+    </h1>
+
+    <form method="post">{% csrf_token %}
+        <div>Name
+            <input type="text" name="name" id="">
+        </div><br>
+        <div>Password
+            <input type="password" name="password">
+        </div><br>
+
+        
+        <button>Submit</button>
+
+    </form>
+
+    {% if error %}
+    <ul>
+        <li>{{ error }}</li>
+    </ul>
+    {% endif %}
+
+
+</body>
+</html>
