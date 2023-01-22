@@ -1,8 +1,108 @@
 {% extends 'base.html' %}
+{% load compress %}
+{% load static %}
 
-{% block title %}Guruhlar{% endblock %}
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss/group.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress %}
+{% endblock %}
 
 
 {% block content %}
-    <h1>Guruhlar</h1>
+    <table class="table">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nomi
+            </th>
+            <th>
+                O'qituvchi
+            </th>
+            <th>
+                Kurs
+            </th>
+        </tr>
+        {% for i in groups %}
+        <tr>
+            <td>
+                {{ i.pk }}
+            </td>
+            <td>
+                <a href="">{{ i.name }}</a>
+            </td>
+            <td>
+                {{ i.teacher.full_name }}
+            </td>
+            <td>
+                {{ i.course.name }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
+
+{% block form %}
+    <h2 class="text-center pb-3">Yangi kurs ochish</h2>
+    <form method="post">{% csrf_token %}
+        <label for="group-name" class="h5">Guruh nomi</label>
+        <input type="text" name="group-name" class="form-control mb-3" id="group-name" required>
+
+        {% if courses.count != 0 %}
+        <label for="cource" class="h5">Qaysi kurs uchun guruh ochmoqchisiz</label>
+        <select id="cource" name="course" class="form-control mb-3" required>
+            {% for i in courses %}
+            <option value="{{ i.pk }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <h1>Hech qanday Kurslar mavjud emas</h1>
+        {% endif %}
+
+        {% if courses.count != 0 %}
+        <label for="teacher" class="h5">O'qituvchi tanlang</label>
+        <select id="teacher" name="teacher" class="form-control mb-3" required>
+            {% for i in teachers %}
+            <option value="{{ i.pk }}">{{ i.full_name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <h1>Hech qanday Kurslar mavjud emas</h1>
+        {% endif %}
+
+        <label for="days" class="h5">Kunlar</label>
+        <select name="days" class="form-control" multiple id="days" required>
+            {% for i in days %}
+            <option value="{{ i.pk }}">{{ i.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="start-time" class="h5">Boshlanish vaqti</label>
+        <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required>
+
+        <label for="end-time" class="h5">Tugash vaqti</label>
+        <input type="time" class="form-control mb-3" id="end-time" name="end-time" disabled>
+
+        <button class="btn btn-primary text-white" type="submit">Kurs yaratish</button>
+    </form>
+
+    <script>
+        let start_time = document.querySelector('#start-time')
+        let end_time = document.querySelector('#end-time')
+
+        let duration = 2
+
+        function change() {
+            let arr = start_time.value.split(':');
+
+            if (Number.parseInt(arr[0]) > 21) {
+                arr[0] = `${Number.parseInt(arr[0]) - 24}`;
+            }
+            console.log(arr);
+            end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
+        }
+
+    </script>
+{% endblock form %}

@@ -4,5 +4,53 @@
 
 
 {% block content %}
-    <h1>O'qtuvchilar</h1>
+<table class="table">
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            Ism Familiya
+        </th>
+        <th>
+            Tel raqami
+        </th>
+        <th>
+            Tug'ilgan kuni
+        </th>
+    </tr>
+    {% for i in teachers %}
+    <tr>
+        <td>
+            {{ forloop.counter }}
+        </td>
+        <td>
+            <a href="">{{ i.full_name }}</a>
+        </td>
+        <td>
+            {{ i.phone }}
+        </td>
+        <td>
+            {{ i.birthday }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
 {% endblock %}
+
+{% block form %}
+    <h2 class="text-center pb-3">Yangi o'qituvchi qo'shish</h2>
+    <form method="post">{% csrf_token %}
+        <label for="full-name" class="h5">Ism familiya</label>
+        <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
+        
+        <label for="phone" class="h5">Tel raqam</label>
+        <input type="text" name="phone" class="form-control mb-3" id="phone" required>
+        
+        <label for="birthday" class="h5">Tu'gilgan sana</label>
+        <input type="date" name="birthday" class="form-control mb-3" id="birthday" required>
+        
+
+        <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+    </form>
+{% endblock form %}

@@ -1,5 +1,4 @@
-.card 
-{
+.card {
     width: 250px;
     height: 250px;
 }
@@ -13,6 +12,16 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+}
 
-    .card {}
+* {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.active .nav-link-text, .active .nav-icon {
+    color: #15a362 !important;
 }
