@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 
-
 {% block content %}
-<span class="h1">Talabalar</span><span class="m-3">Miqdori - {{ peoples.count }}</span>
+<span class="h1">Lidlar</span><span class="m-3">Miqdori - {{ lids.count }}</span>
 <ul class="list-fluid">
-    <li class="special people">
+    <li class="special">
         <span class="h5">
             Ism familiya
         </span>
@@ -13,14 +12,11 @@
             Tel raqam
         </span>
         <span class="h5">
-            Tug'ilgan kuni
-        </span>
-        <span class="h5">
-            Balans
+            Qo'shimcha ma'lumot
         </span>
     </li>
-    {% for i in peoples %}
-    <li class="people">
+    {% for i in lids %}
+    <li>
         <span>
             <a href="">{{ i.full_name }}</a>
         </span>
@@ -28,18 +24,16 @@
             {{ i.phone }}
         </span>
         <span>
-            {{ i.birthday }}
-        </span>
-        <span>
-            {{ i.balans }}
+            {{ i.data|slice:":50" }}{% if i.data|length >= 50 %}...{% endif %}
         </span>
     </li>
     {% endfor %}
 </ul>
 {% endblock %}
 
+
 {% block form %}
-    <h2 class="text-center pb-3">Yangi talaba qo'shish</h2>
+    <h2 class="text-center pb-3">Yangi lid qo'shish</h2>
     <form method="post">{% csrf_token %}
         <label for="full-name" class="h5">Ism familiya</label>
         <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
@@ -47,10 +41,11 @@
         <label for="phone" class="h5">Tel raqam</label>
         <input type="text" name="phone" class="form-control mb-3" id="phone" required>
         
-        <label for="birthday" class="h5">Tu'gilgan sana</label>
-        <input type="date" name="birthday" class="form-control mb-3" id="birthday" required>
-        
+        <label for="phone" class="h5">Qo'shimcha ma'lumot</label>
+        <textarea name="data" id="" class="form-control mb-3 textarea" style="height: 150px;" required></textarea>
 
         <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+
+        <!--   -->
     </form>
-{% endblock form %}
+{% endblock %}

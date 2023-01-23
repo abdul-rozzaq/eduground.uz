@@ -25,3 +25,16 @@
 .active .nav-link-text, .active .nav-icon {
     color: #15a362 !important;
 }
+
+
+table {
+    tbody {
+        tr {
+            // background-color: white;
+    
+            &:hover {
+                background-color: white;
+            }
+        }
+    }
+}

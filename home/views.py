@@ -18,11 +18,55 @@ def home_page(request: WSGIRequest):
         return redirect('ec-login')
 
 
-def peoples(request):
+def lids(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
-    peoples = People.objects.filter(ec__id=ec_id)
 
+    if request.method == 'POST':
+        data = request.POST
+        full_name = data.get('full-name')
+        phone = data.get('phone')
+        _data = data.get('data')       
+
+        Lid.objects.create(
+            ec=ec,
+            full_name=full_name,
+            phone=phone,
+            data=_data
+        )
+
+    lids = Lid.objects.filter(ec=ec)
+
+    context = {
+        'ec': ec,
+        'page_name' : 'Lid',
+        'lids' : lids
+    }
+
+    return render(request, 'tabs/lids.html', context)
+
+
+def peoples(request: WSGIRequest):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    
+    if request.method == 'POST':
+        try:
+            full_name = request.POST.get('full-name')
+            phone =  request.POST.get('phone')
+            birthday =  request.POST.get('birthday')
+
+            people = People.objects.create(
+                ec=ec,
+                full_name=full_name,
+                phone=phone,
+                birthday=birthday
+            )
+ 
+        except Exception as e:
+            print('Error', str(e).strip())
+
+    peoples = People.objects.filter(ec__id=ec_id)
     context = {
         'peoples': peoples,
         'ec': ec,
@@ -32,7 +76,7 @@ def peoples(request):
     return render(request, 'tabs/peoples.html', context)
 
 
-def teachers(request):
+def teachers(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     if request.method == 'POST':
@@ -61,12 +105,31 @@ def teachers(request):
     return render(request, 'tabs/teachers.html', context)
 
 
-def course(request):
+def course(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
+
+    if request.method == 'POST':
+        data = request.POST
+        
+        name = data.get('name')
+        duration = data.get('duration')
+        price = data.get('price')
+
+        new_course = Course.objects.create(
+            ec=ec,
+            name=name,
+            duration=duration,
+            price=price,
+        )
+
+
+
+    courses = Course.objects.filter(ec=ec)
     context = {
         'ec': ec,
         'page_name' : 'Kurs',
+        'courses' : courses
     }
     return render(request, 'tabs/course.html', context)
 
@@ -118,7 +181,7 @@ def group(request: WSGIRequest):
     return render(request, 'tabs/group.html', context)
 
 
-def finance(request):
+def finance(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     context = {
@@ -127,10 +190,22 @@ def finance(request):
     return render(request, 'tabs/finance.html', context)
 
 
-def settings(request):
+def settings(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     context = {
         'ec': ec,
     }
     return render(request, 'tabs/settings.html', context)
+
+
+# Detail
+
+def group_detail(request: WSGIRequest, pk):
+    group = Group.objects.get(pk=pk)
+
+    context = {
+        'group' : group
+    }
+
+    return render(request, 'details/group-detail.html', context)

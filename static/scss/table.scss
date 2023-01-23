@@ -1,0 +1,62 @@
+ul.list {
+    padding-left: 0 !important;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+
+    
+
+    li {
+        margin: 10px;
+        padding: 20px;
+        width: 45%;
+        display: flex;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+        border-radius: 3px;
+        justify-content: space-between;
+
+        span {
+            min-width: 33%;
+        }
+    }
+}
+
+ul.list-fluid {
+    padding-left: 0 !important;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+
+    li.special {
+        background-color: unset;
+        box-shadow: none;
+        // padding: 0;
+    }
+
+    li.people {
+        span {
+            min-width: 25% !important;
+        }
+    }
+
+    li {
+        margin: 5px;
+        padding: 10px;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+            min-width: 33% !important;
+        }
+
+        .id {
+            width: 20px;
+        }
+    }
+
+    
+}

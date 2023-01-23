@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
-{% block title %}O'qtuvchilar{% endblock %}
-
 
 {% block content %}
-<table class="table">
+<!-- <table class="table">
     <tr>
         <th>
             Id
@@ -35,7 +33,24 @@
         </td>
     </tr>
     {% endfor %}
-</table>
+</table> -->
+<span class="h1">O'qituvchilar</span><span class="m-3">Miqdori - {{ teachers.count }}</span>
+<ul class="list mt-3">
+    {% for i in teachers %}
+        <li class="list__item">
+            <span>
+                <a href="">{{ i.full_name }}</a>
+            </span>
+            <span>
+                {{ i.phone }}
+            </span>
+            <span>
+                {{ i.birthday }}
+            </span>
+        </li>
+    {% endfor %}
+</ul>
+
 {% endblock %}
 
 {% block form %}

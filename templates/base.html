@@ -22,6 +22,7 @@
 	{% compress css %}
         <link type="text/x-scss" href="{% static 'scss/modal.scss' %}" rel="stylesheet" media="screen">
 		<link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
+		<link type="text/x-scss" href="{% static 'scss/table.scss' %}" rel="stylesheet" media="screen">
     {% endcompress %}
 	
 	{% block title %}
@@ -33,7 +34,7 @@
 <body class="app">
 	<div id="modal" class="back d-none">
 		<div id="modal" class="modal">
-			<div class="close" id="close"><i class="fa fa-close"></i></div>
+			<div class="close" id="close">&times;</div>
 			{% block form %}
 			{% endblock form %}
 		</div>
@@ -88,7 +89,7 @@
 					<ul class="app-menu list-unstyled accordion" id="menu-accordion">
 						
 						<li class="nav-item">
-							<a class="nav-link" href="{% url 'home-page' %}">
+							<a class="nav-link" href="{% url 'lids' %}">
 								<span class="nav-icon">
 									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-question-circle"
 										fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +197,6 @@
 						</ul>
 					</nav>
 				</div>
-
 			</div>
 		</div>
 	</header>
@@ -211,6 +211,7 @@
 	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'assets/js/app.js' %}"></script>
 	<script src="{% static 'js/modal.js' %}"></script>
+
 
 </body>
 

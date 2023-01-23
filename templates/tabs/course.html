@@ -1,8 +1,55 @@
 {% extends 'base.html' %}
 
-{% block title %}Kurslar{% endblock %}
-
 
 {% block content %}
-    <h1>Kurslar</h1>
+    <span class="h1">Kurslar</span><span class="m-3">Miqdori - {{ courses.count }}</span>
+    <table class="table mt-3">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nomi
+            </th>
+            <th>
+                Davomiyligi
+            </th>
+            <th>
+                Narxi
+            </th>
+        </tr>
+        {% for i in courses %}
+        <tr>
+            <td>
+                {{ forloop.counter }}
+            </td>
+            <td>
+                <a href="">{{ i.name }}</a>
+            </td>
+            <td>
+                {{ i.duration }} soat
+            </td>
+            <td>
+                {{ i.price }} so'm
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
+
+{% block form %}
+    <h2 class="text-center pb-3">Yangi kurs qo'shish</h2>
+    <form method="post">{% csrf_token %}
+        <label for="name" class="h5">Kurs nomi</label>
+        <input type="text" name="name" class="form-control mb-3" id="name" required>
+        
+        <label for="duration" class="h5">Davomiyligi (soatda)</label>
+        <input type="number" name="duration" class="form-control mb-3" id="duration" required>
+        
+        <label for="price" class="h5">Narxi (1 oylik uchun so'mda)</label>
+        <input type="number" name="price" class="form-control mb-3" id="price" oninput="addSpace()" required min="0" max="5000000">
+        
+
+        <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+    </form>
+{% endblock form %}

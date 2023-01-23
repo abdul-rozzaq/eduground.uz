@@ -2,44 +2,45 @@
 {% load compress %}
 {% load static %}
 
-{% block title %}
-    {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss/group.scss' %}" rel="stylesheet" media="screen">
-    {% endcompress %}
-{% endblock %}
 
 
+ 
 {% block content %}
-    <table class="table">
-        <tr>
-            <th>
-                Id
-            </th>
-            <th>
-                Nomi
-            </th>
-            <th>
-                O'qituvchi
-            </th>
-            <th>
-                Kurs
-            </th>
-        </tr>
+    <span class="h1">Guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
+    <table class="table mt-4">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Nomi
+                </th>
+                <th>
+                    O'qituvchi
+                </th>
+                <th>
+                    Kurs
+                </th>
+            </tr>
+        </thead>
         {% for i in groups %}
-        <tr>
-            <td>
-                {{ i.pk }}
-            </td>
-            <td>
-                <a href="">{{ i.name }}</a>
-            </td>
-            <td>
-                {{ i.teacher.full_name }}
-            </td>
-            <td>
-                {{ i.course.name }}
-            </td>
-        </tr>
+        <tbody>
+            <tr>
+                <td>
+                    {{ i.pk }}
+                </td>
+                <td>
+                    <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
+                </td>
+                <td>
+                    {{ i.teacher.full_name }}
+                </td>
+                <td>
+                    {{ i.course.name }}
+                </td>
+            </tr>
+        </tbody>
         {% endfor %}
     </table>
 {% endblock %}

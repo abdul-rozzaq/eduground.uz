@@ -41,6 +41,7 @@ class Course(models.Model):
     ec = models.ForeignKey(EducationCenter, on_delete=models.CASCADE)
     name = models.CharField(max_length=128)
     duration = models.IntegerField(default=2)
+    price = models.IntegerField()
 
     def __str__(self):
         return self.name
@@ -58,3 +59,11 @@ class Group(models.Model):
         return self.name
 
 
+class Lid(models.Model):
+    ec = models.ForeignKey(EducationCenter, on_delete=models.CASCADE)
+    full_name = models.CharField(max_length=256)
+    phone = models.CharField(max_length=15)
+    data = models.TextField(max_length=1000)
+
+    def __str__(self):
+        return self.full_name
