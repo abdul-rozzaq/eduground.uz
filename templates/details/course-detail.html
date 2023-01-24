@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load compress %}
+{% load static %}
+
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss\detail\course.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress css %}
+{% endblock title %}
+
+
+
+{% block content %}
+    <div class="_wrapper">
+        <div class="info">xx</div>
+        <div class="groups">
+            <ul class="list-fluid">
+                <li class="special people">
+                    <span class="h5">
+                        Ism familiya
+                    </span>
+                    <span class="h5">
+                        Tel raqam
+                    </span>
+                    <span class="h5">
+                        Tug'ilgan kuni
+                    </span>
+                    <span class="h5">
+                        Balans
+                    </span>
+                </li>
+                {% for i in peoples %}
+                <li class="people">
+                    <span>
+                        <a href="">{{ i.full_name }}</a>
+                    </span>
+                    <span>
+                        {{ i.phone }}
+                    </span>
+                    <span>
+                        {{ i.birthday }}
+                    </span>
+                    <span>
+                        {{ i.balans }}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

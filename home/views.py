@@ -135,6 +135,8 @@ def course(request: WSGIRequest):
 
 
 def group(request: WSGIRequest):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
     if request.method == 'POST':
         try:
             days = request.POST.getlist('days')
@@ -163,8 +165,7 @@ def group(request: WSGIRequest):
 
 
     
-    ec_id = request.session.get('ec-id')
-    ec = EducationCenter.objects.get(pk=ec_id)
+    
     courses = Course.objects.filter(ec=ec)
     teachers = Teacher.objects.filter(ec=ec)
     days = Day.objects.all()
@@ -202,10 +203,28 @@ def settings(request: WSGIRequest):
 # Detail
 
 def group_detail(request: WSGIRequest, pk):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
     group = Group.objects.get(pk=pk)
-
+    
     context = {
-        'group' : group
+        'ec': ec,
+        'group' : group,
     }
 
     return render(request, 'details/group-detail.html', context)
+
+def course_detail(request: WSGIRequest, pk):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    course = Course.objects.get(pk=pk)
+    groups = Group.objects.filter(course=course)
+
+    context = {
+        'ec': ec,
+        'course' : course,
+        'groups' : groups,
+
+    }
+
+    return render(request, 'details/course-detail.html', context)

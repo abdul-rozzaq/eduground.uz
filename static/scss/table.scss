@@ -31,15 +31,14 @@ ul.list-fluid {
     li.special {
         background-color: unset;
         box-shadow: none;
-        // padding: 0;
     }
-
+    
     li.people {
         span {
-            min-width: 25% !important;
+            min-width: 25%;
         }
     }
-
+    
     li {
         margin: 5px;
         padding: 10px;
@@ -48,15 +47,22 @@ ul.list-fluid {
         width: 100%;
         display: flex;
         justify-content: space-between;
-
+        
         span {
-            min-width: 33% !important;
+            min-width: 33%;
+        }
+        
+        .id {
+            width: 20px;
+        }
+    }
+    li.xcol-5 {
+        span {
+            min-width: 25%;
         }
 
         .id {
             width: 20px;
         }
-    }
-
-    
+    }    
 }

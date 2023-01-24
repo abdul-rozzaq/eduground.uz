@@ -3,7 +3,7 @@
 
 {% block content %}
     <span class="h1">Kurslar</span><span class="m-3">Miqdori - {{ courses.count }}</span>
-    <table class="table mt-3">
+    <!-- <table class="table mt-3">
         <tr>
             <th>
                 Id
@@ -34,7 +34,40 @@
             </td>
         </tr>
         {% endfor %}
-    </table>
+    </table> -->
+
+    <ul class="list-fluid mt-3">
+        <li class="special people xcol-5">
+            <span class="h5">
+                Id
+            </span>
+            <span class="h5">
+                Nomi
+            </span>
+            <span class="h5">
+                Davomiyligi
+            </span>
+            <span class="h5">
+                Narxi
+            </span>
+        </li>
+        {% for i in courses %}
+            <li class="list__item xcol-5" draggable="true" dropzone="true">
+                <span>
+                   {{ forloop.counter }}
+                </span>
+                <span>
+                    <a href="{% url 'course-detail' i.pk %}">{{ i.name }}</a>
+                </span>
+                <span>
+                    {{ i.duration }} soat
+                </span>
+                <span>
+                    {{ i.price }} so'm
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 {% block form %}

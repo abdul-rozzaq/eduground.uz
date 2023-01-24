@@ -16,5 +16,6 @@ urlpatterns = [
     # Detail
 
     path('group/<int:pk>/', group_detail, name='group-detail'),
+    path('course/<int:pk>/', course_detail, name='course-detail'),
 ]
 

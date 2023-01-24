@@ -7,42 +7,38 @@
  
 {% block content %}
     <span class="h1">Guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
-    <table class="table mt-4">
-        <thead>
-            <tr>
-                <th>
-                    Id
-                </th>
-                <th>
-                    Nomi
-                </th>
-                <th>
-                    O'qituvchi
-                </th>
-                <th>
-                    Kurs
-                </th>
-            </tr>
-        </thead>
+    <ul class="list-fluid mt-3">
+        <li class="special people col-5">
+            <span class="h5">
+                Nomi
+            </span>
+            <span class="h5">
+                O'qituvchi
+            </span>
+            <span class="h5">
+                Kurs nomi
+            </span>
+            <span class="h5">
+                O'quvchilar soni
+            </span>
+        </li>
         {% for i in groups %}
-        <tbody>
-            <tr>
-                <td>
-                    {{ i.pk }}
-                </td>
-                <td>
+            <li class="list__item xcol-5">
+                <span>
                     <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
-                </td>
-                <td>
+                </span>
+                <span>
                     {{ i.teacher.full_name }}
-                </td>
-                <td>
+                </span>
+                <span>
                     {{ i.course.name }}
-                </td>
-            </tr>
-        </tbody>
+                </span>
+                <span>
+                    {{ i.peoples.count }}
+                </span>
+            </li>
         {% endfor %}
-    </table>
+    </ul>
 {% endblock %}
 
 {% block form %}

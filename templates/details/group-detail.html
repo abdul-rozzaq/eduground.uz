@@ -1,8 +1,52 @@
 {% extends 'base.html' %}
+{% load compress %}
+{% load static %}
 
-{% block title %}finance{% endblock %}
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss\detail\group.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress css %}
+{% endblock title %}
+
 
 
 {% block content %}
-    <h1>{{ group.name }}</h1>
+    <div class="_wrapper">
+        
+        <div class="info">xx</div>
+        <div class="groups">
+            <ul class="list-fluid mt-3">
+                <li class="special people col-5">
+                    <span class="h5">
+                        Nomi
+                    </span>
+                    <span class="h5">
+                        O'qituvchi
+                    </span>
+                    <span class="h5">
+                        Kurs nomi
+                    </span>
+                    <span class="h5">
+                        O'quvchilar soni
+                    </span>
+                </li>
+                {% for i in groups %}
+                    <li class="list__item xcol-5">
+                        <span>
+                            <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
+                        </span>
+                        <span>
+                            {{ i.teacher.full_name }}
+                        </span>
+                        <span>
+                            {{ i.course.name }}
+                        </span>
+                        <span>
+                            {{ i.peoples.count }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
