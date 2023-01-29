@@ -8,16 +8,45 @@
     {% endcompress css %}
 {% endblock title %}
 
+{% block form %}
+    <h2 class="text-center pb-3">Tahrirlash</h2>
+        <form method="post">{% csrf_token %}
+            <label for="name" class="h5">Kurs nomi</label>
+            <input type="text" name="name" class="form-control mb-3" id="name" value="{{ course.name }}" required>
+            
+            <label for="duration" class="h5">Davomiyligi (soatda)</label>
+            <input type="number" name="duration" class="form-control mb-3" id="duration" required  value="{{ course.duration }}">
+            
+            <label for="price" class="h5">Narxi (1 oylik uchun so'mda)</label>
+            <input type="number" name="price" class="form-control mb-3" id="price" oninput="addSpace()" required min="0" max="5000000"  value="{{ course.price }}">
+            
+            <input type="hidden" name="id" value="{{ course.pk }}">
+            <input type="hidden" name="put" value="put">
+            <button class="btn btn-primary text-white" type="submit">Yangilash</button>
+        </form>
+{% endblock form %}
 
 
 {% block content %}
-    <div class="h1 ml-3">
-        {{ course.name       }} • {{ course.name }}
+    <div class="h3 my-3" style="margin-left: 15px !important;">
+        {{ course.name }}
     </div>
     <div class="_wrapper">
-        <div class="info">xx</div>
+        <div class="info">
+            <div class="float">
+                <button class="edit" id="open-modal">✏</button>
+                <button class="delete">❌</button>
+            </div>
+
+            <h4 class="mb-4">{{ course.name }}</h4>
+            <div class="mb-3">
+                <div><b>Narxi:</b> {{ course.price }} so'm</div>
+                <div><b>Davomiyligi:</b> {{ course.duration }} soat</div>
+            </div>
+           
+        </div>
         <div class="_list">
-            <ul class="list-fluid mt-3">
+            <ul class="list-fluid">
                 <li class="special people xcol-5">
                     <span class="h5">
                         Nomi

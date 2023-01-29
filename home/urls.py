@@ -17,5 +17,6 @@ urlpatterns = [
 
     path('group/<int:pk>/', group_detail, name='group-detail'),
     path('course/<int:pk>/', course_detail, name='course-detail'),
+    path('teacher/<int:pk>/', teacher_detail, name='teacher-detail'),
 ]
 

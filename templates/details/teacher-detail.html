@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load compress %}
+{% load static %}
+
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss\detail\course.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress css %}
+{% endblock title %}
+
+
+
+{% block content %}
+    
+    <h1>{{ teacher.full_name }}</h1>
+
+{% endblock content %}

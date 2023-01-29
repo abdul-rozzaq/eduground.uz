@@ -8,7 +8,7 @@
 {% block content %}
     <span class="h1">Guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
     <ul class="list-fluid mt-3">
-        <li class="special people col-5">
+        <li class="special people xcol-5">
             <span class="h5">
                 Nomi
             </span>
@@ -28,7 +28,7 @@
                     <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
                 </span>
                 <span>
-                    {{ i.teacher.full_name }}
+                    <a href="{% url 'teacher-detail' i.teacher.pk %}">{{ i.teacher.full_name }}</a>
                 </span>
                 <span>
                     {{ i.course.name }}

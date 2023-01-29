@@ -80,7 +80,7 @@
 							{% if page_name %}
 								<a> <button class="btn btn-success text-white" id="open-modal"> {{ page_name }} qo'shish</button></a>
 							{% endif %}
-							<a  id="user-dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">{{ user.username }}</a>
+							<a href="{% url 'logout' %}" role="button" aria-expanded="false">{{ user.username }}</a>
 						</div>
 					</div>
 				</div>

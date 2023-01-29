@@ -8,11 +8,80 @@
     {% endcompress css %}
 {% endblock title %}
 
+{% block form %}
+    <h2 class="text-center pb-3">Tahrirlash</h2>
+    <form method="post">{% csrf_token %}
+        <label for="group-name" class="h5">Guruh nomi</label>
+        <input type="text" name="group-name" class="form-control mb-3" id="group-name" required value="{{ group.name }}">
+
+
+        <label for="teacher" class="h5">O'qituvchi tanlang</label>
+        <select id="teacher" name="teacher" class="form-control mb-3" required>
+            {% for i in teachers %}
+                <option value="{{ i.pk }}" {% if group.teacher == i %} selected {% endif %} >{{ i.full_name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="days" class="h5">Kunlar</label>
+        <select name="days" class="form-control" multiple id="days" required>
+            {% for i in days %}
+            <option value="{{ i.pk }}" {% if i in group.days.all %} selected {% endif %} >{{ i.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="start-time" class="h5">Boshlanish vaqti</label>
+        <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required >
+
+        <label for="end-time" class="h5">Tugash vaqti</label>
+        <input type="time" class="form-control mb-3" id="end-time" name="end-time" disabled>
+
+        <button class="btn btn-primary text-white" type="submit">Kursni yangilash</button>
+    </form>
+
+    <script>
+        let start_time = document.querySelector('#start-time')
+        let end_time = document.querySelector('#end-time')
+
+        let duration = 2
+
+        function change() {
+            let arr = start_time.value.split(':');
+
+            if (Number.parseInt(arr[0]) > 21) {
+                arr[0] = `${Number.parseInt(arr[0]) - 24}`;
+            }
+            console.log(arr);
+            end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
+        }
+
+    </script>
+{% endblock form %}
 
 
 {% block content %}
+    <div class="h3 my-3" style="margin-left: 15px !important;">
+        <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • {{ group.teacher.full_name }}
+    </div>
     <div class="_wrapper">
-        <div class="info">xx</div>
+        <div class="info p-3">
+            <div class="float">
+                <button class="edit" id="open-modal">✏</button>
+                <button class="delete">❌</button>
+            </div>
+
+            <h4 class="mb-4">{{ group.name }}</h4>
+            <div class="mb-3">
+                <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
+                <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
+            </div>
+            <div class="mb-3">
+                <div><b>Boshlanish vaqti:</b> {{ group.start_time }}</div>
+                <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
+            </div>
+
+
+
+        </div>
         <div class="_list">
             <ul class="list-fluid">
                 <li class="special people">

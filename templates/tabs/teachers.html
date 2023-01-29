@@ -2,44 +2,12 @@
 
 
 {% block content %}
-<!-- <table class="table">
-    <tr>
-        <th>
-            Id
-        </th>
-        <th>
-            Ism Familiya
-        </th>
-        <th>
-            Tel raqami
-        </th>
-        <th>
-            Tug'ilgan kuni
-        </th>
-    </tr>
-    {% for i in teachers %}
-    <tr>
-        <td>
-            {{ forloop.counter }}
-        </td>
-        <td>
-            <a href="">{{ i.full_name }}</a>
-        </td>
-        <td>
-            {{ i.phone }}
-        </td>
-        <td>
-            {{ i.birthday }}
-        </td>
-    </tr>
-    {% endfor %}
-</table> -->
 <span class="h1">O'qituvchilar</span><span class="m-3">Miqdori - {{ teachers.count }}</span>
 <ul class="list mt-3">
     {% for i in teachers %}
         <li class="list__item">
             <span>
-                <a href="">{{ i.full_name }}</a>
+                <a href="{% url 'teacher-detail' i.pk %}">{{ i.full_name }}</a>
             </span>
             <span>
                 {{ i.phone }}
