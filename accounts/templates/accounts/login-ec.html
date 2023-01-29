@@ -5,38 +5,47 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link rel="stylesheet" href="{% static 'css/base.css' %}"> -->
     {% compress css %}
-    <link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
+    <link type="text/x-scss" href="{% static 'scss/login.scss' %}" rel="stylesheet" media="screen">
     {% endcompress %}
 
     <title>Document</title>
 
 </head>
 <body>
-    <h1>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, soluta?
-        <a href="{% url 'logout' %}">logout</a>
-    </h1>
+    <div class="container">
+        <h1>Eduground.uz</h1>
+        <form method="POST">{% csrf_token %}
+            <div>
+                <label for="name">O'quv markaz nomi</label>
+                <input type="text" id="name" name="name"/>
+            </div>
+            <div>
+                <label for="password">O'quv markaz paroli</label>
+                <input type="password" id="password" name="password" />
+            </div>
+            <span>
+                <input  type="checkbox" id="checkbox" /><label for="checkbox">Show password</label>
+            </span>
+            <div class="center">
+                <button type="submit">Send</button>
+            </div>
+        </form>
+    </div>
 
-    <form method="post">{% csrf_token %}
-        <div>Name
-            <input type="text" name="name" id="">
-        </div><br>
-        <div>Password
-            <input type="password" name="password">
-        </div><br>
+    <script>
+        let value = false
+        let checkbox = document.querySelector('#checkbox')
 
-        
-        <button>Submit</button>
+        let password = document.querySelector('#password')
 
-    </form>
+        checkbox.addEventListener('change', (event)=>{
+            value = !value
 
-    {% if error %}
-    <ul>
-        <li>{{ error }}</li>
-    </ul>
-    {% endif %}
+            value ? password.type = 'text' : password.type = 'password'
+        })
+
+    </script>
 
 
 </body>

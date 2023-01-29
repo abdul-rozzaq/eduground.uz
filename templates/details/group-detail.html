@@ -12,39 +12,38 @@
 
 {% block content %}
     <div class="_wrapper">
-        
         <div class="info">xx</div>
-        <div class="groups">
-            <ul class="list-fluid mt-3">
-                <li class="special people col-5">
+        <div class="_list">
+            <ul class="list-fluid">
+                <li class="special people">
                     <span class="h5">
-                        Nomi
+                        Ism familiya
                     </span>
                     <span class="h5">
-                        O'qituvchi
+                        Tel raqam
                     </span>
                     <span class="h5">
-                        Kurs nomi
+                        Tug'ilgan kuni
                     </span>
                     <span class="h5">
-                        O'quvchilar soni
+                        Balans
                     </span>
                 </li>
-                {% for i in groups %}
-                    <li class="list__item xcol-5">
-                        <span>
-                            <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
-                        </span>
-                        <span>
-                            {{ i.teacher.full_name }}
-                        </span>
-                        <span>
-                            {{ i.course.name }}
-                        </span>
-                        <span>
-                            {{ i.peoples.count }}
-                        </span>
-                    </li>
+                {% for i in group.peoples.all %}
+                <li class="people">
+                    <span>
+                        <a href="">{{ i.full_name }}</a>
+                    </span>
+                    <span>
+                        {{ i.phone }}
+                    </span>
+                    <span>
+                        {{ i.birthday }}
+                    </span>
+                    <span>
+                        {{ i.balans }}
+                    </span>
+                </li>
                 {% endfor %}
             </ul>
         </div>

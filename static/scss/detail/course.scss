@@ -5,7 +5,7 @@
     display: flex;
     width: 100%;
 
-    .info, .groups {
+    .info, ._list {
         padding: 10px;
         border-radius: 3px;
     }
@@ -17,7 +17,7 @@
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
     }
     
-    .groups {
+    ._list {
         width: 70%;
     }
 
