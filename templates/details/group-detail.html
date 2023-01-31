@@ -30,12 +30,12 @@
         </select>
 
         <label for="start-time" class="h5">Boshlanish vaqti</label>
-        <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required >
-
+        <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required value="{{ group.start_time|safe }}">
         <label for="end-time" class="h5">Tugash vaqti</label>
         <input type="time" class="form-control mb-3" id="end-time" name="end-time" disabled>
 
         <button class="btn btn-primary text-white" type="submit">Kursni yangilash</button>
+        <input type="hidden" name="command" value="update">
     </form>
 
     <script>
@@ -53,33 +53,58 @@
             console.log(arr);
             end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
         }
-
+        change()
     </script>
 {% endblock form %}
+
+{% block add-people-form %}
+    <h2 class="text-center pb-3">O'quvchi qo'shish</h2>
+    
+    <div class="form-group">
+        <label for="search-input" class="pl-3">Qidiruv</label>
+        <input type="search" name="q" class="form-control mb-3" id="search-input">
+    </div>
+
+    <div class="form-group">
+        <label for="people-select pl-3">O'quvchi</label>
+        <form method="POST">{% csrf_token %}
+            <select name="people" class="form-control mb-3" id="people-select"> 
+                {% for i in peoples %}
+                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
+                {% endfor %}        
+            </select>
+            <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+            <input type="hidden" name="command" value="add-people">
+        </form>
+    </div>
+
+{% endblock add-people-form %}
 
 
 {% block content %}
     <div class="h3 my-3" style="margin-left: 15px !important;">
-        <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • {{ group.teacher.full_name }}
+        <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
     </div>
     <div class="_wrapper">
         <div class="info p-3">
             <div class="float">
-                <button class="edit" id="open-modal">✏</button>
-                <button class="delete">❌</button>
+                <button class="xbtn" id="open-modal">✏</button>
+                <button class="xbtn">❌</button>
             </div>
-
+            
             <h4 class="mb-4">{{ group.name }}</h4>
             <div class="mb-3">
                 <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
                 <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
             </div>
             <div class="mb-3">
-                <div><b>Boshlanish vaqti:</b> {{ group.start_time }}</div>
+                <div><b>Boshlanish vaqti:</b> {{ group.start_time|safe }}</div>
                 <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
             </div>
 
-
+            <div>
+                <button class="xbtn" id="open-modal-add-people">➕</button>
+            </div>
 
         </div>
         <div class="_list">
@@ -118,3 +143,7 @@
         </div>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/api.js' %}"></script>
+{% endblock script %}

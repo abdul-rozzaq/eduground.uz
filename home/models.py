@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from datetime import timedelta
 
 class EducationCenter(models.Model):
     logo = models.ImageField(upload_to='logo/')
@@ -53,7 +54,9 @@ class Group(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     peoples = models.ManyToManyField(People, blank=True)
     start_time = models.TimeField()
+    end_time = models.TimeField()
     days = models.ManyToManyField(Day)
+    is_active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -67,3 +70,4 @@ class Lid(models.Model):
 
     def __str__(self):
         return self.full_name
+

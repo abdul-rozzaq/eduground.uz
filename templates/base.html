@@ -33,10 +33,17 @@
 
 <body class="app">
 	<div id="modal" class="back d-none">
-		<div id="modal" class="modal">
+		<div class="modal">
 			<div class="close" id="close">&times;</div>
 			{% block form %}
 			{% endblock form %}
+		</div>
+	</div>
+	<div id="modal-add-people" class="back d-none">
+		<div class="modal">
+			<div class="close" id="close-add-people">&times;</div>
+			{% block add-people-form %}
+			{% endblock add-people-form %}
 		</div>
 	</div>
 	<header class="app-header fixed-top">
@@ -61,13 +68,7 @@
 						<div class="app-search-box col">
 							<form class="app-search-form">
 								<input type="text" placeholder="Search..." name="search"
-									class="form-control search-input" list="users">
-									<datalist id="users">
-										<option value="ddssss"></option>
-										<option value="xx"></option>
-										<option value="cx"></option>
-										<a href="http://youtube.com"><option value="axx"></a>
-									</datalist>
+									class="form-control search-input">
 								<button type="submit" class="btn search-btn btn-primary" value="Search"><i
 										class="fas fa-search"></i></button>
 
@@ -220,7 +221,9 @@
 	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'assets/js/app.js' %}"></script>
 	<script src="{% static 'js/modal.js' %}"></script>
-
+	{% block script %}
+	{% endblock script %}
+	
 
 </body>
 

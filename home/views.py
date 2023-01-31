@@ -144,16 +144,20 @@ def group(request: WSGIRequest):
             course_id = request.POST.get('course')
             teacher_id = request.POST.get('teacher')
             start_time = request.POST.get('start-time')
+            hour = int(start_time.split(':')[0]) + 2
+            min = int(start_time.split(':')[1])
+            end_time = f'{hour}:{min}'
             teacher = Teacher.objects.get(pk=teacher_id)
             course = Course.objects.get(pk=course_id)
-             
-            print(request.POST)
+            is_active = request.POST.get('is_active')
 
             new_group = Group.objects.create(
                 name=group_name,
                 course=course,
                 teacher=teacher,
-                start_time=start_time
+                start_time=start_time,
+                end_time=end_time,
+                is_active=is_active
             )
 
             for i in days:
@@ -207,37 +211,48 @@ def group_detail(request: WSGIRequest, pk):
     ec = EducationCenter.objects.get(pk=ec_id)
     group = Group.objects.get(pk=pk)
 
-    if request.method == 'POST':
-        try:
-            days = request.POST.getlist('days')
-            group_name = request.POST.get('group-name')
-            teacher_id = request.POST.get('teacher')
-            start_time = request.POST.get('start-time')
-            teacher = Teacher.objects.get(pk=teacher_id)
-            
-             
-            group.name = group_name
-            group.start_time = start_time
-            group.teacher = teacher
+    if request.method == 'POST' and request.POST.get('command'):
+        command = request.POST.get('command')
 
-            group.days.clear()
+        if command == 'update':
+            try:
+                days = request.POST.getlist('days')
+                group_name = request.POST.get('group-name')
+                teacher_id = request.POST.get('teacher')
+                start_time = request.POST.get('start-time')
+                teacher = Teacher.objects.get(pk=teacher_id)
+                
+                
+                group.name = group_name
+                group.start_time = start_time
+                group.teacher = teacher
 
-            for i in days:
-                print(i)
-                group.days.add(Day.objects.get(pk=int(i)))
-            
-            group.save()
+                group.days.clear()
 
-        except Exception as e:
-            print('Error', str(e).strip())
+                for i in days:
+                    print(i)
+                    group.days.add(Day.objects.get(pk=int(i)))
+                
+                group.save()
+
+            except Exception as e:
+                print('Error', str(e).strip())
+        elif command == 'add-people' and request.POST.get('people'):
+            try:
+                id = request.POST.get('people')
+                people = People.objects.get(pk=id)
+
+                group.peoples.add(people)
+            except Exception as e:
+                print('Error', str(e).strip())
 
     courses = Course.objects.filter(ec=ec)
     teachers = Teacher.objects.filter(ec=ec)
     days = Day.objects.all()
     groups = Group.objects.filter(course__ec=ec)
-
+    peoples = People.objects.filter(ec=ec)
     
-
+    
     context = {
         'ec': ec,
         'group' : group,
@@ -245,9 +260,11 @@ def group_detail(request: WSGIRequest, pk):
         'teachers': teachers,
         'groups': groups,
         'days': days,
+        'peoples': peoples,
     }
 
     return render(request, 'details/group-detail.html', context)
+
 
 def course_detail(request: WSGIRequest, pk):
     course = Course.objects.get(pk=pk)
@@ -288,12 +305,13 @@ def teacher_detail(request: WSGIRequest, pk):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     teacher = Teacher.objects.get(pk=pk)
-
+    groups = Group.objects.filter(course__ec=ec, teacher=teacher)
 
 
     context = {
         'ec': ec,
         'teacher': teacher,
+        'groups': groups,
     }
 
     return render(request, 'details/teacher-detail.html', context)

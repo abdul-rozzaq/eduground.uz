@@ -1,0 +1,54 @@
+._wrapper {
+    padding: 10px;
+    border-radius: 3px;
+    gap: 10px;
+    display: flex;
+    width: 100%;
+
+    .info, ._list {
+        padding: 10px;
+        border-radius: 3px;
+    }
+    
+    .info {
+        margin-top: 30px;
+        height: max-content;
+        background-color: white;
+        width: 30%;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+        font-weight: 500;
+
+        .float {
+            float: right;
+
+            button {
+                width: 40px;
+                height: 40px;
+                font-size: 12px;
+                border: none;
+                border-radius: 50%;
+                border: 1px solid #15a362;
+                padding: 10px;
+            }
+        }
+
+        .center {
+            text-align: center;
+        }
+
+    
+
+        .profile-box {
+            margin: 0 auto;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 150px;
+            background-color: rgb(157, 157, 157);
+        }
+    }
+    
+    ._list {
+        width: 70%;
+    }
+
+}

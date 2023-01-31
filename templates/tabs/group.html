@@ -75,6 +75,9 @@
             <option value="{{ i.pk }}">{{ i.name }}</option>
             {% endfor %}
         </select>
+        <label for="is_active">Holati</label>
+        <input type="radio" name="is_active" value="True" />&nbsp; Aktiv
+        <input type="radio" name="is_active" value="False" />&nbsp; Aktiv emas 
 
         <label for="start-time" class="h5">Boshlanish vaqti</label>
         <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required>

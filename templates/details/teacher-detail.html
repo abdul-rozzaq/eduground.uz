@@ -4,7 +4,7 @@
 
 {% block title %}
     {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss\detail\course.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'scss\detail\teacher.scss' %}" rel="stylesheet" media="screen">
     {% endcompress css %}
 {% endblock title %}
 
@@ -12,6 +12,39 @@
 
 {% block content %}
     
-    <h1>{{ teacher.full_name }}</h1>
+    <div class="h3 my-3" style="margin-left: 15px !important;">
+        {{ teacher.full_name }}
+    </div>
+    <div class="_wrapper">
+        <div class="info">
+            <div class="float">
+                <button class="edit" id="open-modal">✏</button>
+            </div>
+
+            <p class="center"><b>{{ teacher.full_name }}</b></p>
+            <div class="mb-3">
+                <div><b>Telefon:</b> {{ teacher.phone }}</div>
+                <div><b>Tug'ilgan kun:</b> {{ teacher.birthday }}</div>
+            </div>
+           
+        </div>
+        <div class="_list">
+            <ul class="list-fluid mt-3">
+                {% for i in groups %}
+                    <li class="">
+                        <span>
+                            <a href="{% url 'course-detail' i.course.pk %}">{{ i.course.name }}</a>
+                        </span>
+                        <span>
+                            <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
+                        </span>
+                        <span>
+                            {{ i.peoples.count }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 
 {% endblock content %}

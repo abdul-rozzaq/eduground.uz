@@ -17,18 +17,18 @@
         box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
         font-weight: 500;
 
+        .xbtn {
+            width: 40px;
+            height: 40px;
+            font-size: 12px;
+            border: none;
+            border-radius: 50%;
+            border: 1px solid #15a362;
+            padding: 10px;
+        }
+
         .float {
             float: right;
-
-            button {
-                width: 40px;
-                height: 40px;
-                font-size: 12px;
-                border: none;
-                border-radius: 50%;
-                border: 1px solid #15a362;
-                padding: 10px;
-            }
         }
     }
     
