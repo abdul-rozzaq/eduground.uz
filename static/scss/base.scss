@@ -33,3 +33,18 @@
     border-color: #15a362 !important;
 
 }
+
+.xs {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.xs.c {
+    background-color: crimson;
+}
+
+.xs.g {
+    background-color: #12ff2e;
+}

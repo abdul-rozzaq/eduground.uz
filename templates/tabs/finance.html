@@ -1,6 +1,83 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-    <h1>finance</h1>
+    <span class="h1">Cheklar</span><span class="m-3">Miqdori - {{ payment_logs.count }}</span>
+    <ul class="list-fluid mt-3">
+        <li class="special xcol-6">
+            <span class="h5">
+                Talaba
+            </span>
+            <span class="h5">
+                Guruh
+            </span>
+            <span class="h5">
+                Oy
+            </span>
+            <span class="h5">
+                Summa
+            </span>
+            <span class="h5">
+                Kim tomonidan
+            </span>
+        </li>
+        {% for i in payment_logs %}
+            <li class="list__item xcol-6">
+                <span>
+                    <a href="">{{ i.people.full_name }}</a>
+                </span>
+                <span>
+                    <a href="{% url 'group-detail' i.group.pk %}">{{ i.group.name }}</a>
+                </span>
+                <span>
+                    {{ i.month }}
+                </span>
+                <span>
+                    {{ i.money }}
+                </span>
+                <span>
+                    {{ i.by.username }}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
+
+{% block form %}
+    <h2 class="text-center pb-3">To'lov olish</h2>
+    <div class="form-group">
+        <label for="search-input" class="pl-3 h5">Qidiruv</label>
+        <input type="search" name="q" class="form-control mb-3" id="search-input">
+    </div>
+    <form method="post">{% csrf_token %}
+        <div class="form-group">
+            <label for="people-select" class="pl-3 h5">O'quvchi</label>
+            <select name="people" class="form-control mb-3" id="people-select"> 
+                {% for i in peoples %}
+                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
+                {% endfor %}        
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="group-select" class="h5">Guruh</label>
+            <select id="group-select" name="group" class="form-control mb-3" required on>
+                {% for i in groups %}
+                    <option value="{{ i.pk }}">{{ i.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="summa" class="h5">Summa</label>
+            <input type="number" class="form-control mb-3" id="summa" name="summa" required>
+        </div>
+
+        <input type="month" class="form-control mb-3" name="month">
+
+        <button class="btn btn-primary text-white" type="submit">Kurs yaratish</button>
+    </form>
+
+{% endblock form %}
+
+{% block script %}
+    <script src="{% static 'js/api.js' %}"></script>
+{% endblock script %}

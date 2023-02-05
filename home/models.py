@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-from datetime import timedelta
+from django.contrib import admin
 
 class EducationCenter(models.Model):
     logo = models.ImageField(upload_to='logo/')
@@ -71,3 +70,18 @@ class Lid(models.Model):
     def __str__(self):
         return self.full_name
 
+class PaymentLog(models.Model):
+    ec = models.ForeignKey(EducationCenter, on_delete=models.CASCADE)
+    people = models.ForeignKey(People, on_delete=models.CASCADE)
+    month:models.DateField = models.DateField()
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    money = models.IntegerField()
+    by = models.ForeignKey(User, models.CASCADE)
+
+    @admin.display(description='People')
+    def people_info(self):
+        return self.people.full_name
+    
+    @admin.display(description='Month')
+    def month_info(self):
+        return self.month.strftime('%Y.%m')

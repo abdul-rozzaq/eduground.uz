@@ -1,34 +1,41 @@
 {% extends 'base.html' %}
+{% load static %}{% load compress %}
 
+
+{% block title %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss\context.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress css %}
+{% endblock title %}
 
 {% block content %}
-<span class="h1">Lidlar</span><span class="m-3">Miqdori - {{ lids.count }}</span>
-<ul class="list-fluid">
-    <li class="special">
-        <span class="h5">
-            Ism familiya
-        </span>
-        <span class="h5">
-            Tel raqam
-        </span>
-        <span class="h5">
-            Qo'shimcha ma'lumot
-        </span>
-    </li>
-    {% for i in lids %}
-    <li>
-        <span>
-            <a href="">{{ i.full_name }}</a>
-        </span>
-        <span>
-            {{ i.phone }}
-        </span>
-        <span>
-            {{ i.data|slice:":50" }}{% if i.data|length >= 50 %}...{% endif %}
-        </span>
-    </li>
-    {% endfor %}
-</ul>
+    <span class="h1">Lidlar</span><span class="m-3">Miqdori - {{ lids.count }}</span>
+    <ul class="list-fluid">
+        <li class="special">
+            <span class="h5">
+                Ism familiya
+            </span>
+            <span class="h5">
+                Tel raqam
+            </span>
+            <span class="h5">
+                Qo'shimcha ma'lumot
+            </span>
+        </li>
+        {% for i in lids %}
+        <li class="lid"  data-lid-id="{{ i.pk }}">
+            <span data-lid-id="{{ i.pk }}">
+                <a href="">{{ i.full_name }}</a>
+            </span>
+            <span data-lid-id="{{ i.pk }}">
+                {{ i.phone }}
+            </span>
+            <span data-lid-id="{{ i.pk }}">
+                {{ i.data|slice:":50" }}{% if i.data|length >= 50 %}...{% endif %}
+            </span>
+        </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
 
 
@@ -46,6 +53,19 @@
 
         <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
 
-        <!--   -->
     </form>
 {% endblock %}
+
+
+{% block context %}
+    <div id="context-menu">
+        <a href="#" class="context-button move">Guruhga o'tkazish</a>
+        <a href="#" class="context-button edit">Tahrirlash</a>
+        <a href="#" class="context-button delete">O'chirish</a>
+    </div>
+{% endblock context %}
+
+
+{% block script %}
+    <script src="{% static 'js/context.js' %}"></script>
+{% endblock script %}

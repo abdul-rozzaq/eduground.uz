@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, redirect
 from django.core.handlers.wsgi import WSGIRequest
 
@@ -189,9 +190,42 @@ def group(request: WSGIRequest):
 def finance(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
+    groups = Group.objects.filter(course__ec=ec)
+    peoples = People.objects.filter(ec=ec)
+
+    if request.method == 'POST':
+        ds = request.POST
+        
+        month = ds.get('month').split('-')
+        people_id = ds.get('people')
+        summa = ds.get('summa')
+        group_id = ds.get('group')
+        
+
+        month = datetime.date(int(month[0]), int(month[1]), 1)
+        group = Group.objects.get(pk=group_id)
+        people = People.objects.get(pk=people_id)
+
+        PaymentLog.objects.create( 
+            ec=ec,
+            money=summa,
+            by=request.user,
+            group=group,
+            month=month,
+            people=people
+        )
+        
+        people.balans += int(summa)
+        people.save()
+
     context = {
         'ec': ec,
+        'page_name': "To'lov",
+        'payment_logs' : PaymentLog.objects.filter(ec=ec),
+        'groups': groups,
+        'peoples': peoples,
     }
+
     return render(request, 'tabs/finance.html', context)
 
 
@@ -243,6 +277,10 @@ def group_detail(request: WSGIRequest, pk):
                 people = People.objects.get(pk=id)
 
                 group.peoples.add(people)
+
+                people.balans -= int(group.course.price)
+                people.save()
+
             except Exception as e:
                 print('Error', str(e).strip())
 
@@ -250,7 +288,7 @@ def group_detail(request: WSGIRequest, pk):
     teachers = Teacher.objects.filter(ec=ec)
     days = Day.objects.all()
     groups = Group.objects.filter(course__ec=ec)
-    peoples = People.objects.filter(ec=ec)
+    peoples = People.objects.filter(ec=ec).exclude(group=group)
     
     
     context = {

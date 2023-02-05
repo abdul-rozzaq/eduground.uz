@@ -5,7 +5,7 @@
 {% block content %}
 <span class="h1">Talabalar</span><span class="m-3">Miqdori - {{ peoples.count }}</span>
 <ul class="list-fluid">
-    <li class="special people">
+    <li class="special people xcol-6">
         <span class="h5">
             Ism familiya
         </span>
@@ -18,9 +18,12 @@
         <span class="h5">
             Balans
         </span>
+        <span class="h5">
+            Holat
+        </span>
     </li>
     {% for i in peoples %}
-    <li class="people">
+    <li class="people xcol-6">
         <span>
             <a href="">{{ i.full_name }}</a>
         </span>
@@ -31,7 +34,10 @@
             {{ i.birthday }}
         </span>
         <span>
-            {{ i.balans }}
+            {{ i.balans }} so'm
+        </span>
+        <span>
+            <div class="xs {% if i.balans >= 0 %} g {% else %} c {% endif %}"></div>
         </span>
     </li>
     {% endfor %}
@@ -50,7 +56,6 @@
         <label for="birthday" class="h5">Tu'gilgan sana</label>
         <input type="date" name="birthday" class="form-control mb-3" id="birthday" required>
         
-
         <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
     </form>
 {% endblock form %}

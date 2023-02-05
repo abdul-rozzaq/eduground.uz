@@ -100,7 +100,6 @@
             if (Number.parseInt(arr[0]) > 21) {
                 arr[0] = `${Number.parseInt(arr[0]) - 24}`;
             }
-            console.log(arr);
             end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
         }
 

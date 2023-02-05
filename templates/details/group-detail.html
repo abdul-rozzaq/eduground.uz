@@ -4,7 +4,9 @@
 
 {% block title %}
     {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss\detail\group.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'scss/detail\group.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
+        <script src="{% static 'js/jquery.min.js' %}"></script>
     {% endcompress css %}
 {% endblock title %}
 
@@ -50,7 +52,6 @@
             if (Number.parseInt(arr[0]) > 21) {
                 arr[0] = `${Number.parseInt(arr[0]) - 24}`;
             }
-            console.log(arr);
             end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
         }
         change()
@@ -147,3 +148,11 @@
 {% block script %}
     <script src="{% static 'js/api.js' %}"></script>
 {% endblock script %}
+
+{% block context %}
+    <div id="context-menu">
+        <a href="#" class="context-button move">Guruhga o'tkazish</a>
+        <a href="#" class="context-button edit">Tahrirlash</a>
+        <a href="#" class="context-button delete">O'chirish</a>
+    </div>
+{% endblock context %}
