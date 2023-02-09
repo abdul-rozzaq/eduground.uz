@@ -3,156 +3,183 @@
 {% load static %}
 
 {% block title %}
-    {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss/detail\group.scss' %}" rel="stylesheet" media="screen">
-        <link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
-        <script src="{% static 'js/jquery.min.js' %}"></script>
-    {% endcompress css %}
+{% compress css %}
+<link type="text/x-scss" href="{% static 'scss/detail\group.scss' %}" rel="stylesheet" media="screen">
+<link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
+<script src="{% static 'js/jquery.min.js' %}"></script>
+{% endcompress css %}
 {% endblock title %}
 
 {% block form %}
-    <h2 class="text-center pb-3">Tahrirlash</h2>
-    <form method="post">{% csrf_token %}
-        <label for="group-name" class="h5">Guruh nomi</label>
-        <input type="text" name="group-name" class="form-control mb-3" id="group-name" required value="{{ group.name }}">
+
+<div id="modal" class="back d-none" data-modal-name="edit">
+    <div class="modal">
+        <div class="close" id="close" data-modal-id="edit">&times;</div>
+        <h2 class="text-center pb-3">Tahrirlash</h2>
+        <form method="post">{% csrf_token %}
+            <label for="group-name" class="h5">Guruh nomi</label>
+            <input type="text" name="group-name" class="form-control mb-3" id="group-name" required
+                value="{{ group.name }}">
 
 
-        <label for="teacher" class="h5">O'qituvchi tanlang</label>
-        <select id="teacher" name="teacher" class="form-control mb-3" required>
-            {% for i in teachers %}
-                <option value="{{ i.pk }}" {% if group.teacher == i %} selected {% endif %} >{{ i.full_name }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="days" class="h5">Kunlar</label>
-        <select name="days" class="form-control" multiple id="days" required>
-            {% for i in days %}
-            <option value="{{ i.pk }}" {% if i in group.days.all %} selected {% endif %} >{{ i.name }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="start-time" class="h5">Boshlanish vaqti</label>
-        <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required value="{{ group.start_time|safe }}">
-        <label for="end-time" class="h5">Tugash vaqti</label>
-        <input type="time" class="form-control mb-3" id="end-time" name="end-time" disabled>
-
-        <button class="btn btn-primary text-white" type="submit">Kursni yangilash</button>
-        <input type="hidden" name="command" value="update">
-    </form>
-
-    <script>
-        let start_time = document.querySelector('#start-time')
-        let end_time = document.querySelector('#end-time')
-
-        let duration = 2
-
-        function change() {
-            let arr = start_time.value.split(':');
-
-            if (Number.parseInt(arr[0]) > 21) {
-                arr[0] = `${Number.parseInt(arr[0]) - 24}`;
-            }
-            end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` : `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
-        }
-        change()
-    </script>
-{% endblock form %}
-
-{% block add-people-form %}
-    <h2 class="text-center pb-3">O'quvchi qo'shish</h2>
-    
-    <div class="form-group">
-        <label for="search-input" class="pl-3">Qidiruv</label>
-        <input type="search" name="q" class="form-control mb-3" id="search-input">
-    </div>
-
-    <div class="form-group">
-        <label for="people-select pl-3">O'quvchi</label>
-        <form method="POST">{% csrf_token %}
-            <select name="people" class="form-control mb-3" id="people-select"> 
-                {% for i in peoples %}
-                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
-                {% endfor %}        
+            <label for="teacher" class="h5">O'qituvchi tanlang</label>
+            <select id="teacher" name="teacher" class="form-control mb-3" required>
+                {% for i in teachers %}
+                <option value="{{ i.pk }}" {% if group.teacher == i %} selected {% endif %}>{{ i.full_name }}</option>
+                {% endfor %}
             </select>
-            <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
-            <input type="hidden" name="command" value="add-people">
-        </form>
-    </div>
 
-{% endblock add-people-form %}
+            <label for="days" class="h5">Kunlar</label>
+            <select name="days" class="form-control" multiple id="days" required>
+                {% for i in days %}
+                <option value="{{ i.pk }}" {% if i in group.days.all %} selected {% endif %}>{{ i.name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="start-time" class="h5">Boshlanish vaqti</label>
+            <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required
+                value="{{ group.start_time|safe }}">
+            <label for="end-time" class="h5">Tugash vaqti</label>
+            <input type="time" class="form-control mb-3" id="end-time" name="end-time" disabled>
+
+            <button class="btn btn-primary text-white" type="submit">Kursni yangilash</button>
+            <input type="hidden" name="command" value="update">
+        </form>
+
+
+    </div>
+</div>
+
+<script>
+    let start_time = document.querySelector('#start-time')
+    let end_time = document.querySelector('#end-time')
+
+    let duration = 2
+
+    function change() {
+        let arr = start_time.value.split(':');
+
+        if (Number.parseInt(arr[0]) > 21) {
+            arr[0] = `${Number.parseInt(arr[0]) - 24}`;
+        }
+        end_time.value = Number.parseInt(arr[0]) < 8 ? `0${Number.parseInt(arr[0]) + duration}:${arr[1]}` :
+            `${Number.parseInt(arr[0]) + duration}:${arr[1]}`
+    }
+    change()
+</script>
+
+
+<div id="modal-add-people" class="back d-none" data-modal-name="add-modal">
+    <div class="modal">
+        <div class="close" data-modal-id="add-modal">&times;</div>
+        <h2 class="text-center pb-3">O'quvchi qo'shish</h2>
+
+        <div class="form-group">
+            <label for="search-input" class="pl-3">Qidiruv</label>
+            <input type="search" name="q" class="form-control mb-3" id="search-input">
+        </div>
+
+        <div class="form-group">
+            <label for="people-select pl-3">O'quvchi</label>
+            <form method="POST">{% csrf_token %}
+                <select name="people" class="form-control mb-3" id="people-select">
+                    {% for i in peoples %}
+                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
+                    {% endfor %}
+                </select>
+                <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+                <input type="hidden" name="command" value="add-people">
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="back d-none" data-modal-name="delete">
+    <div class="modal">
+        <div class="close" data-modal-id="delete">&times;</div>
+
+        <h1>lorem ipsum</h1>
+
+    </div>
+</div>
+{% endblock form %}
 
 
 {% block content %}
-    <div class="h3 my-3" style="margin-left: 15px !important;">
-        <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
-    </div>
-    <div class="_wrapper">
-        <div class="info p-3">
-            <div class="float">
-                <button class="xbtn" id="open-modal">✏</button>
-                <button class="xbtn">❌</button>
-            </div>
-            
-            <h4 class="mb-4">{{ group.name }}</h4>
-            <div class="mb-3">
-                <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
-                <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
-            </div>
-            <div class="mb-3">
-                <div><b>Boshlanish vaqti:</b> {{ group.start_time|safe }}</div>
-                <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
-            </div>
-
-            <div>
-                <button class="xbtn" id="open-modal-add-people">➕</button>
-            </div>
-
+<div class="h3 my-3" style="margin-left: 15px !important;">
+    <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a
+        href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
+</div>
+<div class="_wrapper">
+    <div class="info p-3">
+        <div class="float">
+            <button class="xbtn open-modal" id="open-modal" data-modal-id="edit">✏</button>
+            <button class="xbtn open-modal" data-modal-id="delete">❌</button>
         </div>
-        <div class="_list">
-            <ul class="list-fluid">
-                <li class="special people">
-                    <span class="h5">
-                        Ism familiya
-                    </span>
-                    <span class="h5">
-                        Tel raqam
-                    </span>
-                    <span class="h5">
-                        Tug'ilgan kuni
-                    </span>
-                    <span class="h5">
-                        Balans
-                    </span>
-                </li>
-                {% for i in group.peoples.all %}
-                <li class="people">
-                    <span>
-                        <a href="">{{ i.full_name }}</a>
-                    </span>
-                    <span>
-                        {{ i.phone }}
-                    </span>
-                    <span>
-                        {{ i.birthday }}
-                    </span>
-                    <span>
-                        {{ i.balans }}
-                    </span>
-                </li>
-                {% endfor %}
-            </ul>
+
+        <h4 class="mb-4">{{ group.name }}</h4>
+        <div class="mb-3">
+            <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
+            <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
         </div>
+        <div class="mb-3">
+            <div><b>Boshlanish vaqti:</b> {{ group.start_time|safe }}</div>
+            <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
+        </div>
+
+        <div>
+            <button class="xbtn open-modal" id="open-modal-add-people" data-modal-id="add-modal">➕</button>
+        </div>
+
     </div>
+    <div class="_list">
+        <ul class="list-fluid">
+            <li class="special people">
+                <span class="h5">
+                    Ism familiya
+                </span>
+                <span class="h5">
+                    Tel raqam
+                </span>
+                <span class="h5">
+                    Tug'ilgan kuni
+                </span>
+                <span class="h5">
+                    Balans
+                </span>
+            </li>
+            {% for i in group.peoples.all %}
+            <li class="people">
+                <span>
+                    <a href="">{{ i.full_name }}</a>
+                </span>
+                <span>
+                    {{ i.phone }}
+                </span>
+                <span>
+                    {{ i.birthday }}
+                </span>
+                <span>
+                    {{ i.balans }}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'js/api.js' %}"></script>
+<script src="{% static 'js/api.js' %}"></script>
 {% endblock script %}
 
 {% block context %}
-    <div id="context-menu">
-        <a href="#" class="context-button move">Guruhga o'tkazish</a>
-        <a href="#" class="context-button edit">Tahrirlash</a>
-        <a href="#" class="context-button delete">O'chirish</a>
-    </div>
+<div id="context-menu">
+    <a href="#" class="context-button move">Guruhga o'tkazish</a>
+    <a href="#" class="context-button edit">Tahrirlash</a>
+    <a href="#" class="context-button delete">O'chirish</a>
+</div>
 {% endblock context %}
+

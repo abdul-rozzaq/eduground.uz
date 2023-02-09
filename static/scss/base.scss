@@ -1,8 +1,27 @@
 .card {
     width: 250px;
-    height: 250px;
+    height: 100px;
+    font-size: 25px;
+    &.d-flex {
+        justify-content: center;
+        align-items: center;
+    }
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+
+    &:hover {
+        background-color: #737373;
+    }
 }
 
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
 .app-wrapper {
     padding: 10px;
     transition: none !important;
@@ -22,16 +41,13 @@
     -ms-user-select: none;
     user-select: none;
 }
-.active .nav-link-text, .active .nav-icon {
+.active .nav-link-text,
+.active .nav-icon {
     color: #15a362 !important;
 }
 
-
-
 .search-input:focus {
-
     border-color: #15a362 !important;
-
 }
 
 .xs {
@@ -47,4 +63,8 @@
 
 .xs.g {
     background-color: #12ff2e;
+}
+
+.xsbtn {
+    background-color: dodgerblue !important;
 }

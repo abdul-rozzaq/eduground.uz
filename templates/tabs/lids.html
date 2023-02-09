@@ -39,21 +39,26 @@
 {% endblock %}
 
 
-{% block form %}
-    <h2 class="text-center pb-3">Yangi lid qo'shish</h2>
-    <form method="post">{% csrf_token %}
-        <label for="full-name" class="h5">Ism familiya</label>
-        <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
-        
-        <label for="phone" class="h5">Tel raqam</label>
-        <input type="text" name="phone" class="form-control mb-3" id="phone" required>
-        
-        <label for="phone" class="h5">Qo'shimcha ma'lumot</label>
-        <textarea name="data" id="" class="form-control mb-3 textarea" style="height: 150px;" required></textarea>
+{% block form %}    
+    <div id="modal" class="back d-none" data-modal-name="add-modal">
+        <div class="modal">
+            <div class="close" data-modal-id="add-modal">&times;</div>
 
-        <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+            <h2 class="text-center pb-3">Yangi lid qo'shish</h2>
+            <form method="post">{% csrf_token %}
+                <label for="full-name" class="h5">Ism familiya</label>
+                <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
+                
+                <label for="phone" class="h5">Tel raqam</label>
+                <input type="text" name="phone" class="form-control mb-3" id="phone" required>
+                
+                <label for="phone" class="h5">Qo'shimcha ma'lumot</label>
+                <textarea name="data" id="" class="form-control mb-3 textarea" style="height: 150px;" required></textarea>
 
-    </form>
+                <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 

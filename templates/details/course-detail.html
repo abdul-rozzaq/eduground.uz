@@ -9,21 +9,26 @@
 {% endblock title %}
 
 {% block form %}
+<div id="modal-add-people" class="back d-none" data-modal-name="add-modal">
+    <div class="modal">
     <h2 class="text-center pb-3">Tahrirlash</h2>
-        <form method="post">{% csrf_token %}
-            <label for="name" class="h5">Kurs nomi</label>
-            <input type="text" name="name" class="form-control mb-3" id="name" value="{{ course.name }}" required>
-            
-            <label for="duration" class="h5">Davomiyligi (soatda)</label>
-            <input type="number" name="duration" class="form-control mb-3" id="duration" required  value="{{ course.duration }}">
-            
-            <label for="price" class="h5">Narxi (1 oylik uchun so'mda)</label>
-            <input type="number" name="price" class="form-control mb-3" id="price" oninput="addSpace()" required min="0" max="5000000"  value="{{ course.price }}">
-            
-            <input type="hidden" name="id" value="{{ course.pk }}">
-            <input type="hidden" name="put" value="put">
-            <button class="btn btn-primary text-white" type="submit">Yangilash</button>
-        </form>
+    <form method="post">{% csrf_token %}
+        <label for="name" class="h5">Kurs nomi</label>
+        <input type="text" name="name" class="form-control mb-3" id="name" value="{{ course.name }}" required>
+        
+        <label for="duration" class="h5">Davomiyligi (soatda)</label>
+        <input type="number" name="duration" class="form-control mb-3" id="duration" required  value="{{ course.duration }}">
+        
+        <label for="price" class="h5">Narxi (1 oylik uchun so'mda)</label>
+        <input type="number" name="price" class="form-control mb-3" id="price" oninput="addSpace()" required min="0" max="5000000"  value="{{ course.price }}">
+        
+        <input type="hidden" name="id" value="{{ course.pk }}">
+        <input type="hidden" name="put" value="put">
+        <button class="btn btn-primary text-white" type="submit">Yangilash</button>
+    </form>
+
+    </div>
+</div>
 {% endblock form %}
 
 

@@ -25,6 +25,7 @@
         <link type="text/x-scss" href="{% static 'scss/modal.scss' %}" rel="stylesheet" media="screen">
 		<link type="text/x-scss" href="{% static 'scss/table.scss' %}" rel="stylesheet" media="screen">
 		<link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
+		<link type="text/x-scss" href="{% static 'scss/loader.scss' %}" rel="stylesheet" media="screen">
     {% endcompress %}
 	
 	{% block title %}
@@ -36,19 +37,30 @@
 <body class="app">
 	{% block context %}
 	{% endblock context %}
-	<div id="modal" class="back d-none">
-		<div class="modal">
-			<div class="close" id="close">&times;</div>
-			{% block form %}
-			{% endblock form %}
+
+	{% block form %}
+	{% endblock form %}
+	
+	{% if page_name == "Talaba" %}
+		<div class="back d-none" data-modal-name="excel">
+			<div class="modal">
+				<div class="close" data-modal-id="excel">&times;</div>
+				<div class="h2 mb-3">Excel dan import qilish</div>
+				<div class="mb-3">Shablonni yuklash <a href="{% static 'template/peoples.xlsx' %}" download>file.xlsx</a></div>
+				<form method="post" enctype="multipart/form-data"> {% csrf_token %}
+					<div class="form-group gap-3">
+						<label for="file" class="h5 d-inline">Faylni tanlash</label>
+						<input type="file" name="file" class="mb-3" accept=".xlsx" id="file">
+					</div>
+					<input type="hidden" name="command" value="excel">
+
+					<button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+				</form>
+			</div>
 		</div>
-	</div>
-	<div id="modal-add-people" class="back d-none">
-		<div class="modal">
-			<div class="close" id="close-add-people">&times;</div>
-			{% block add-people-form %}
-			{% endblock add-people-form %}
-		</div>
+	{% endif %}
+	<div class="loader-back d-none">
+		<div class="loader"></div>
 	</div>
 	<header class="app-header fixed-top">
 		<div class="app-header-inner">
@@ -83,7 +95,11 @@
 
 						<div class="app-utilities col-auto d-flex gap-3 align-items-center">
 							{% if page_name %}
-								<a> <button class="btn btn-success text-white" id="open-modal"> {{ page_name }} qo'shish</button></a>
+								{% if page_name == "Talaba" %}
+									<button class="btn xsbtn text-white open-modal" data-modal-id="excel">Excel dan yuklash</button>
+								{% endif %}
+								
+								<button class="btn btn-primary text-white open-modal" data-modal-id="add-modal"> {{ page_name }} qo'shish</button>
 							{% endif %}
 							<a href="{% url 'logout' %}" role="button" aria-expanded="false">{{ user.username }}</a>
 						</div>
@@ -224,7 +240,9 @@
 	<script src="{% static 'assets/plugins/popper.min.js' %}"></script>
 	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'assets/js/app.js' %}"></script>
-	<script src="{% static 'js/modal.js' %}"></script>
+	<!-- <script src="{% static 'js/modal.js' %}"></script> -->
+	<script src="{% static 'js/node.js' %}"></script>
+	<script src="{% static 'js/loader.js' %}"></script>
 	{% block script %}
 	{% endblock script %}
 	

@@ -1,8 +1,37 @@
 import datetime
-from django.shortcuts import render, redirect
+import openpyxl
+
 from django.core.handlers.wsgi import WSGIRequest
+from django.shortcuts import render, redirect
+from openpyxl.reader.excel import ExcelReader
 
 from home.models import *
+
+days = {
+    'Monday' : 'Dushanba',
+    'Tuesday' : 'Seshanba',
+    'Wednesday' : 'Chorshanba',
+    'Thursday' : 'Payshanba',
+    'Friday' : 'Juma',
+    'Saturday' : 'Shanba',
+    'Sunday' : 'Yakshanba',
+}
+
+def excel_reader(file):
+    wb = openpyxl.load_workbook(file)
+
+    worksheet = wb.worksheets[0]
+
+    excel_data = list()
+
+    for row in worksheet.iter_rows():
+        row_data = list()
+        for cell in row:
+            row_data.append(cell.value)
+
+        excel_data.append(row_data)
+
+    return excel_data[1:]
 
 
 def home_page(request: WSGIRequest):
@@ -11,7 +40,18 @@ def home_page(request: WSGIRequest):
         ec = EducationCenter.objects.get(pk=ec_id)
         if request.user.is_authenticated:
 
-            return render(request, 'tabs/index.html', {'ec': ec})
+            today = Day.objects.get(name=days[datetime.date.today().strftime('%A')])
+        
+
+            context = {
+                'ec': ec,
+                'lids' : Lid.objects.filter(ec=ec),
+                'teachers' : Teacher.objects.filter(ec=ec),
+                'peoples' : People.objects.filter(ec=ec),
+                'courses' : Course.objects.filter(ec=ec),
+                'groups' : Group.objects.filter(days=today, course__ec=ec), 
+            }
+            return render(request, 'tabs/index.html', context)
 
         else:
             return redirect('user-login')
@@ -27,7 +67,7 @@ def lids(request: WSGIRequest):
         data = request.POST
         full_name = data.get('full-name')
         phone = data.get('phone')
-        _data = data.get('data')       
+        _data = data.get('data')
 
         Lid.objects.create(
             ec=ec,
@@ -40,8 +80,8 @@ def lids(request: WSGIRequest):
 
     context = {
         'ec': ec,
-        'page_name' : 'Lid',
-        'lids' : lids
+        'page_name': 'Lid',
+        'lids': lids
     }
 
     return render(request, 'tabs/lids.html', context)
@@ -50,28 +90,56 @@ def lids(request: WSGIRequest):
 def peoples(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
-    
-    if request.method == 'POST':
-        try:
-            full_name = request.POST.get('full-name')
-            phone =  request.POST.get('phone')
-            birthday =  request.POST.get('birthday')
 
-            people = People.objects.create(
-                ec=ec,
-                full_name=full_name,
-                phone=phone,
-                birthday=birthday
-            )
- 
-        except Exception as e:
-            print('Error', str(e).strip())
+    command = request.POST.get('command')
+    if request.method == 'POST' and command and command !='':
+        if command == 'create':
+            try:
+                full_name = request.POST.get('full-name')
+                phone = request.POST.get('phone')
+                birthday = request.POST.get('birthday')
 
-    peoples = People.objects.filter(ec__id=ec_id)
+                people = People.objects.create(
+                    ec=ec,
+                    full_name=full_name,
+                    phone=phone,
+                    birthday=birthday
+                )
+
+            except Exception as e:
+                print('Error', str(e).strip())
+        elif command == 'excel':
+            try:
+                file = request.FILES['file']
+                array = excel_reader(file)
+
+                for i in array:
+                    if i[0] and i[1] and i[2]:
+                        full_name = i[0].strip()
+                        phone = i[1]
+                        year, month, day = i[2].split('.')
+                        birthday = datetime.date(
+                            int(year), 
+                            int(month), 
+                            int(day)
+                        )
+
+                        print(full_name, phone, birthday)
+                        People.objects.create(
+                            ec=ec,
+                            full_name=full_name,
+                            phone=phone,
+                            birthday=birthday
+                        )
+
+            except Exception as e:
+                print('Error', str(e).strip())
+
+    peoples_list = People.objects.filter(ec__id=ec_id)
     context = {
-        'peoples': peoples,
+        'peoples': peoples_list,
         'ec': ec,
-        'page_name' : 'Talaba',
+        'page_name': 'Talaba',
     }
 
     return render(request, 'tabs/peoples.html', context)
@@ -83,8 +151,8 @@ def teachers(request: WSGIRequest):
     if request.method == 'POST':
         try:
             full_name = request.POST.get('full-name')
-            phone =  request.POST.get('phone')
-            birthday =  request.POST.get('birthday')
+            phone = request.POST.get('phone')
+            birthday = request.POST.get('birthday')
 
             # new_teacher
             new_teacher = Teacher.objects.create(
@@ -93,15 +161,14 @@ def teachers(request: WSGIRequest):
                 phone=phone,
                 birthday=birthday
             )
- 
+
         except Exception as e:
             print('Error', str(e).strip())
 
-
     context = {
         'ec': ec,
-        'page_name' : 'O\'qituvchi',
-        'teachers' : Teacher.objects.filter(ec=ec)
+        'page_name': 'O\'qituvchi',
+        'teachers': Teacher.objects.filter(ec=ec)
     }
     return render(request, 'tabs/teachers.html', context)
 
@@ -112,7 +179,7 @@ def course(request: WSGIRequest):
 
     if request.method == 'POST':
         data = request.POST
-        
+
         name = data.get('name')
         duration = data.get('duration')
         price = data.get('price')
@@ -124,13 +191,11 @@ def course(request: WSGIRequest):
             price=price,
         )
 
-
-
     courses = Course.objects.filter(ec=ec)
     context = {
         'ec': ec,
-        'page_name' : 'Kurs',
-        'courses' : courses
+        'page_name': 'Kurs',
+        'courses': courses
     }
     return render(request, 'tabs/course.html', context)
 
@@ -168,9 +233,6 @@ def group(request: WSGIRequest):
         except Exception as e:
             print('Error', str(e).strip())
 
-
-    
-    
     courses = Course.objects.filter(ec=ec)
     teachers = Teacher.objects.filter(ec=ec)
     days = Day.objects.all()
@@ -178,7 +240,7 @@ def group(request: WSGIRequest):
 
     context = {
         'ec': ec,
-        'page_name' : 'Guruh',
+        'page_name': 'Guruh',
         'courses': courses,
         'teachers': teachers,
         'groups': groups,
@@ -195,18 +257,17 @@ def finance(request: WSGIRequest):
 
     if request.method == 'POST':
         ds = request.POST
-        
+
         month = ds.get('month').split('-')
         people_id = ds.get('people')
         summa = ds.get('summa')
         group_id = ds.get('group')
-        
 
         month = datetime.date(int(month[0]), int(month[1]), 1)
         group = Group.objects.get(pk=group_id)
         people = People.objects.get(pk=people_id)
 
-        PaymentLog.objects.create( 
+        PaymentLog.objects.create(
             ec=ec,
             money=summa,
             by=request.user,
@@ -214,14 +275,14 @@ def finance(request: WSGIRequest):
             month=month,
             people=people
         )
-        
+
         people.balans += int(summa)
         people.save()
 
     context = {
         'ec': ec,
         'page_name': "To'lov",
-        'payment_logs' : PaymentLog.objects.filter(ec=ec),
+        'payment_logs': PaymentLog.objects.filter(ec=ec),
         'groups': groups,
         'peoples': peoples,
     }
@@ -240,6 +301,7 @@ def settings(request: WSGIRequest):
 
 # Detail
 
+
 def group_detail(request: WSGIRequest, pk):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
@@ -255,10 +317,13 @@ def group_detail(request: WSGIRequest, pk):
                 teacher_id = request.POST.get('teacher')
                 start_time = request.POST.get('start-time')
                 teacher = Teacher.objects.get(pk=teacher_id)
-                
+                hour = int(start_time.split(':')[0]) + 2
+                min = int(start_time.split(':')[1])
+                end_time = f'{hour}:{min}'
                 
                 group.name = group_name
                 group.start_time = start_time
+                group.end_time = end_time
                 group.teacher = teacher
 
                 group.days.clear()
@@ -266,7 +331,7 @@ def group_detail(request: WSGIRequest, pk):
                 for i in days:
                     print(i)
                     group.days.add(Day.objects.get(pk=int(i)))
-                
+
                 group.save()
 
             except Exception as e:
@@ -289,11 +354,10 @@ def group_detail(request: WSGIRequest, pk):
     days = Day.objects.all()
     groups = Group.objects.filter(course__ec=ec)
     peoples = People.objects.filter(ec=ec).exclude(group=group)
-    
-    
+
     context = {
         'ec': ec,
-        'group' : group,
+        'group': group,
         'courses': courses,
         'teachers': teachers,
         'groups': groups,
@@ -309,14 +373,14 @@ def course_detail(request: WSGIRequest, pk):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     groups = Group.objects.filter(course=course)
-    
+
     if request.method == 'POST' and request.POST.get('put'):
         try:
             data = request.POST
-            
+
             name = data.get('name')
             duration = data.get('duration')
-            price = data.get('price')      
+            price = data.get('price')
 
             print(pk, name)
 
@@ -331,8 +395,8 @@ def course_detail(request: WSGIRequest, pk):
 
     context = {
         'ec': ec,
-        'course' : course,
-        'groups' : groups,
+        'course': course,
+        'groups': groups,
 
     }
 
@@ -345,7 +409,6 @@ def teacher_detail(request: WSGIRequest, pk):
     teacher = Teacher.objects.get(pk=pk)
     groups = Group.objects.filter(course__ec=ec, teacher=teacher)
 
-
     context = {
         'ec': ec,
         'teacher': teacher,
@@ -353,7 +416,3 @@ def teacher_detail(request: WSGIRequest, pk):
     }
 
     return render(request, 'details/teacher-detail.html', context)
-
-
-
-
