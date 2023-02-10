@@ -41,6 +41,10 @@ const lids = document.getElementsByClassName("lid")
 const contextMenu = document.querySelector('#context-menu')
 const body = document.querySelector('body')
 
+
+
+
+
 for (let lid of lids) {
 
     // lid.addEventListener("contextmenu", (event) => {
@@ -68,7 +72,21 @@ for (let lid of lids) {
 
     lid.addEventListener('contextmenu', (event) => {
         event.preventDefault()
-    
+
+        let fullName = lid.querySelectorAll('span')[0].innerText,
+        phone = lid.querySelectorAll('span')[1].innerText,
+        data = lid.querySelectorAll('span')[2].getAttribute('data-data'),
+        pk = lid.querySelectorAll('span')[3].innerText
+        
+        document.querySelector('#full-name2').value = fullName 
+        document.querySelector('#phone2').value = phone
+        document.querySelector('#data2').value = data 
+        document.querySelector('#pk').value = pk 
+
+
+
+        // console.log(firstName, phone, data);
+
         const { clientX : mouseX, clientY : mouseY } = event
         
         let windowHeight = window.innerHeight,
@@ -91,6 +109,7 @@ for (let lid of lids) {
     })  
 
     lid.addEventListener("click", (e) => {
+        
         if (e.target.offsetParent != contextMenu) {
             contextMenu.classList.remove("visible");
         }
@@ -108,3 +127,7 @@ document.addEventListener("scroll", (e) => {
         contextMenu.classList.remove("visible");
     }
 });
+
+contextMenu.addEventListener('click', ()=> {
+    contextMenu.classList.remove("visible");
+})

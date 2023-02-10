@@ -8,7 +8,17 @@
     {% endcompress css %}
 {% endblock title %}
 
+{% block form %}
 
+<div class="back d-none" data-modal-name="edit">
+    <div class="modal">
+        <div class="close" data-modal-id="edit">&times;</div>
+        <h2 class="text-center pb-3">Edit</h2>
+    </div>
+</div>
+
+
+{% endblock form %}
 
 {% block content %}
     
@@ -18,7 +28,7 @@
     <div class="_wrapper">
         <div class="info">
             <div class="float">
-                <button class="edit" id="open-modal">✏</button>
+                <button class="edit open-modal" data-modal-id="edit">✏</button>
             </div>
 
             <p class="center"><b>{{ teacher.full_name }}</b></p>

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load compress %}
 {% load static %}
+{% load xtime %}
+{% load safetime %}
 
 
 
@@ -8,7 +10,7 @@
 {% block content %}
     <span class="h1">Guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
     <ul class="list-fluid mt-3">
-        <li class="special people xcol-5">
+        <li class="special people xcol-6">
             <span class="h5">
                 Nomi
             </span>
@@ -21,9 +23,15 @@
             <span class="h5">
                 O'quvchilar soni
             </span>
+            <span class="h5">
+                Boshlanish vaqti
+            </span>
+            <span class="h5">
+                Tugash vaqti
+            </span>
         </li>
         {% for i in groups %}
-            <li class="list__item xcol-5">
+            <li class="list__item xcol-6">
                 <span>
                     <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
                 </span>
@@ -35,6 +43,12 @@
                 </span>
                 <span>
                     {{ i.peoples.count }}
+                </span>
+                <span>
+                    {% safetime i.start_time|safe %}
+                </span>
+                <span>
+                    {% safetime i.end_time|safe %}
                 </span>
             </li>
         {% endfor %}

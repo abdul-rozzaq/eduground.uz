@@ -2,6 +2,7 @@
 {% load static %}
 {% load compress %}
 {% load xtime %}
+{% load safetime %}
 
 
 
@@ -44,6 +45,9 @@
             <span class="h5">
                 Boshlanish vaqti
             </span>
+            <span class="h5">
+                Tugash vaqti
+            </span>
         </li>
         {% for i in groups %}
             <li class="list__item xcol-6" {% interval i as xs %} {% if xs  %} style="background-color: aqua;" {% endif %}>
@@ -59,8 +63,11 @@
                 <span>
                     {{ i.peoples.count }}
                 </span>
-                <span class="h5">
-                    {{ i.start_time|safe }}
+                <span>
+                    {% safetime i.start_time|safe %}
+                </span>
+                <span>
+                    {% safetime i.end_time|safe %}
                 </span>
             </li>
         {% endfor %}

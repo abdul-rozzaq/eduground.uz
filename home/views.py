@@ -63,18 +63,33 @@ def lids(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
 
-    if request.method == 'POST':
-        data = request.POST
-        full_name = data.get('full-name')
-        phone = data.get('phone')
-        _data = data.get('data')
+    command = request.POST.get('command')
+    if request.method == 'POST' and command:
+        if command == 'create':
+            data = request.POST
+            full_name = data.get('full-name')
+            phone = data.get('phone')
+            _data = data.get('data')
 
-        Lid.objects.create(
-            ec=ec,
-            full_name=full_name,
-            phone=phone,
-            data=_data
-        )
+            Lid.objects.create(
+                ec=ec,
+                full_name=full_name,
+                phone=phone,
+                data=_data
+            )
+        elif command == 'update':
+            id = request.POST.get('id')
+            data = request.POST
+            full_name = data.get('full-name')
+            phone = data.get('phone')
+            _data = data.get('data')
+
+            lid = Lid.objects.get(pk=id)
+            lid.data = data
+            lid.full_name = full_name
+            lid.phone = phone
+            lid.save()
+
 
     lids = Lid.objects.filter(ec=ec)
 

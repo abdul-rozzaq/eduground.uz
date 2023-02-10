@@ -51,6 +51,7 @@ TEMPLATES = [
 
             'libraries':{
                 'xtime': 'home.templatetags.xtime',
+                'safetime': 'home.templatetags.safetime',
             
             }
         },
