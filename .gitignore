@@ -11,3 +11,5 @@ media
 *.bat
 *.zip
 *.scss
+.env
+media/*

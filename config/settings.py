@@ -1,10 +1,15 @@
 from pathlib import Path
+from environs import Env
+import os
+
+env = Env()
+env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-%!32_s8u5eb7+mrq(xrd(sig-oh^j)%4om#45$v4ns#n$sr0yv'
 
-DEBUG = True
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -67,6 +72,12 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -92,17 +103,19 @@ USE_I18N = True
 USE_TZ = True
 
 
-STATIC_URL = 'static/'
-STATIC_ROOT = 'static_root'
-
-STATICFILES_DIRS= [BASE_DIR / 'static']
-
-MEDIA_URL = 'media/'
-MEDIA_ROOT = 'media'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = 'media/'
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
+
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
