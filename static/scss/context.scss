@@ -28,7 +28,7 @@ body {
             }
         }
         .move {
-            transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
             &:hover {
                 color: white;
@@ -37,7 +37,7 @@ body {
         }
 
         .delete {
-            transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
             &:hover {
                 color: white;
@@ -45,7 +45,7 @@ body {
             }
         }
         .edit {
-            transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
 
             &:hover {
                 color: white;
@@ -57,5 +57,43 @@ body {
     #context-menu.visible {
         transform: scale(1);
         transition: transform 200ms ease-in-out;
+    }
+}
+
+.modal {
+    .d-flex {
+        gap: 10px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .delete {
+        color: white;
+        background-color: red;
+        padding: 6px 20px;
+        border-radius: 5px;
+        transition: .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+        &:hover {
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+    }
+
+    ._close {
+        color: white;
+        transition: .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background-color: dodgerblue;
+        padding: 6px 20px;
+        border-radius: 5px;
+
+        &:hover {
+            color: white;
+            box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        }
+    }
+
+    .center {
+        text-align: center;
     }
 }

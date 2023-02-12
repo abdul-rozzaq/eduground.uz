@@ -3,7 +3,6 @@ import openpyxl
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect
-from openpyxl.reader.excel import ExcelReader
 
 from home.models import *
 
@@ -16,6 +15,43 @@ days = {
     'Saturday' : 'Shanba',
     'Sunday' : 'Yakshanba',
 }
+
+def calc_all_days(year, month, group):
+    day = 1
+    x = 0
+    while True:
+        try:
+            date = datetime.date(year, month, day)
+            day += 1   
+
+            if Day.objects.get(name=days[str(date.strftime('%A'))]) in group.days.all():
+                x += 1
+
+        except Exception as e:
+            break
+    return x
+
+
+def calc_couse_price(date, group:Group):
+    
+    lessons = 0
+
+    year, month, day = map(int, str(date).split('-'))
+
+    while True:
+        try:
+            date = datetime.date(year, month, day)
+            day += 1   
+
+            if Day.objects.get(name=days[str(date.strftime('%A'))]) in group.days.all():
+                lessons += 1
+
+        except Exception as e:
+            break
+
+    print('lessons',lessons)
+    return group.course.price / calc_all_days(year, month, group) * lessons
+
 
 def excel_reader(file):
     wb = openpyxl.load_workbook(file)
@@ -49,7 +85,8 @@ def home_page(request: WSGIRequest):
                 'teachers' : Teacher.objects.filter(ec=ec),
                 'peoples' : People.objects.filter(ec=ec),
                 'courses' : Course.objects.filter(ec=ec),
-                'groups' : Group.objects.filter(days=today, course__ec=ec), 
+                'today_groups' : Group.objects.filter(days=today, course__ec=ec), 
+                'groups' : Group.objects.filter(course__ec=ec), 
             }
             return render(request, 'tabs/index.html', context)
 
@@ -85,7 +122,7 @@ def lids(request: WSGIRequest):
             _data = data.get('data')
 
             lid = Lid.objects.get(pk=id)
-            lid.data = data
+            lid.data = _data
             lid.full_name = full_name
             lid.phone = phone
             lid.save()
@@ -355,10 +392,10 @@ def group_detail(request: WSGIRequest, pk):
             try:
                 id = request.POST.get('people')
                 people = People.objects.get(pk=id)
-
+                added_date = request.POST.get('added-date')
                 group.peoples.add(people)
-
-                people.balans -= int(group.course.price)
+                people.balans -= calc_couse_price(added_date, group)
+            
                 people.save()
 
             except Exception as e:
@@ -431,3 +468,15 @@ def teacher_detail(request: WSGIRequest, pk):
     }
 
     return render(request, 'details/teacher-detail.html', context)
+
+
+def delete_lid(request):
+    pk = request.GET.get('pk')
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    lid = Lid.objects.get(pk=pk)
+
+    if lid.ec == ec:
+        lid.delete()
+
+    return redirect('lids')

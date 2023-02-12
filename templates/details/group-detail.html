@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 {% load compress %}
 {% load static %}
+{% load safetime %}
 
 {% block title %}
-{% compress css %}
-<link type="text/x-scss" href="{% static 'scss/detail\group.scss' %}" rel="stylesheet" media="screen">
-<link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
-<script src="{% static 'js/jquery.min.js' %}"></script>
-{% endcompress css %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'scss/detail/group.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'scss/davomat.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
+    {% endcompress css %}
+        <script src="{% static 'js/jquery.min.js' %}"></script>
 {% endblock title %}
 
 {% block form %}
@@ -84,9 +86,12 @@
             <form method="POST">{% csrf_token %}
                 <select name="people" class="form-control mb-3" id="people-select">
                     {% for i in peoples %}
-                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
+                        <option value="{{ i.pk }}">{{ i.full_name }}</option>
                     {% endfor %}
                 </select>
+                <label for="added-date" class="h5">Kunni tanlang</label>
+                <input type="date" name="added-date" class="form-control mb-3" id="added-date" required>
+                
                 <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
                 <input type="hidden" name="command" value="add-people">
             </form>
@@ -99,80 +104,98 @@
 <div class="back d-none" data-modal-name="delete">
     <div class="modal">
         <div class="close" data-modal-id="delete">&times;</div>
-
         <h1>lorem ipsum</h1>
-
     </div>
 </div>
 {% endblock form %}
 
 
 {% block content %}
-<div class="h3 my-3" style="margin-left: 15px !important;">
-    <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a
-        href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
-</div>
-<div class="_wrapper">
-    <div class="info p-3">
-        <div class="float">
-            <button class="xbtn open-modal" id="open-modal" data-modal-id="edit">✏</button>
-            <button class="xbtn open-modal" data-modal-id="delete">❌</button>
-        </div>
-
-        <h4 class="mb-4">{{ group.name }}</h4>
-        <div class="mb-3">
-            <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
-            <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
-        </div>
-        <div class="mb-3">
-            <div><b>Boshlanish vaqti:</b> {{ group.start_time|safe }}</div>
-            <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
-        </div>
-
-        <div>
-            <button class="xbtn open-modal" id="open-modal-add-people" data-modal-id="add-modal">➕</button>
-        </div>
-
+    <div class="h3 my-3" style="margin-left: 15px !important;">
+        <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a
+            href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
     </div>
-    <div class="_list">
-        <ul class="list-fluid">
-            <li class="special people">
-                <span class="h5">
-                    Ism familiya
-                </span>
-                <span class="h5">
-                    Tel raqam
-                </span>
-                <span class="h5">
-                    Tug'ilgan kuni
-                </span>
-                <span class="h5">
-                    Balans
-                </span>
-            </li>
-            {% for i in group.peoples.all %}
-            <li class="people">
-                <span>
-                    <a href="">{{ i.full_name }}</a>
-                </span>
-                <span>
-                    {{ i.phone }}
-                </span>
-                <span>
-                    {{ i.birthday }}
-                </span>
-                <span>
-                    {{ i.balans }}
-                </span>
-            </li>
-            {% endfor %}
-        </ul>
+    <div class="_wrapper">
+        <div class="info p-3">
+            <div class="float">
+                <button class="xbtn open-modal" id="open-modal" data-modal-id="edit">✏</button>
+                <button class="xbtn open-modal" data-modal-id="delete">❌</button>
+            </div>
+
+            <h4 class="mb-4">{{ group.name }}</h4>
+            <div class="mb-3">
+                <div><b>Narxi:</b> {{ group.course.price }} so'm</div>
+                <div><b>Kunlar:</b> {% for i in group.days.all %} <span>{{ i }},</span> {% endfor %}</div>
+            </div>
+            <div class="mb-3">
+                <div><b>Boshlanish vaqti:</b> {% safetime group.start_time|safe %}</div>
+                <div><b>Tugash vaqti:</b> {% safetime group.end_time|safe %} </div>
+                <div><b>Davomiyligi:</b> {{ group.course.duration }} soat</div>
+            </div>
+
+            <div>
+                <button class="xbtn open-modal" id="open-modal-add-people" data-modal-id="add-modal">➕</button>
+            </div>
+
+        </div>
+        <div class="_list">
+            <div class="d-flex gap-2 mb-2">
+                <div class="list-button ">O'quvchilar</div>
+                <div class="list-button active">Davomat</div>
+            </div>
+            <div class="_page d-none">
+                <ul class="list-fluid">
+                    <li class="special people">
+                        <span class="h5">
+                            Ism familiya
+                        </span>
+                        <span class="h5">
+                            Tel raqam
+                        </span>
+                        <span class="h5">
+                            Tug'ilgan kuni
+                        </span>
+                        <span class="h5">
+                            Balans
+                        </span>
+                    </li>
+                    {% for i in group.peoples.all %}
+                    <li class="people">
+                        <span>
+                            <a href="">{{ i.full_name }}</a>
+                        </span>
+                        <span>
+                            {{ i.phone }}
+                        </span>
+                        <span>
+                            {{ i.birthday }}
+                        </span>
+                        <span>
+                            {{ i.balans }}
+                        </span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="_page ">
+                <table class="">
+                    {% for i in group.peoples.all %}
+                        <tr>
+                            <td>{{ i.full_name }}</td>
+                            <td>W</td>
+                            <td>W</td>
+                        </tr>
+                    {% endfor %}
+                    
+                </table>
+            </div>
+        </div>
     </div>
-</div>
 {% endblock %}
 
 {% block script %}
-<script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'js/toggle.js' %}"></script>
 {% endblock script %}
 
 {% block context %}

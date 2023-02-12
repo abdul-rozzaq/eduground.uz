@@ -5,11 +5,12 @@
     display: flex;
     width: 100%;
 
-    .info, ._list {
+    .info,
+    ._list {
         padding: 10px;
         border-radius: 3px;
     }
-    
+
     .info {
         height: max-content;
         background-color: white;
@@ -31,9 +32,35 @@
             float: right;
         }
     }
-    
+
     ._list {
         width: 70%;
     }
+}
 
+.list-button {
+    border-radius: 3px;
+    padding: 7px 20px;
+    transition: .2s ease-in-out;
+
+    border: 1px solid #15a362;
+    background-color: white;
+    color: #15a362;
+
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        background-color: #15a362;
+        color: white;
+    }
+}
+
+.list-button.active {
+    background-color: #15a362;
+    color: white;
+    border: 1px solid #15a362;
+
+    &:hover {
+        background-color: #15a362;
+        color: white;
+    }
 }

@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'compressor',
 
     'home',
+    'attendance',
     'accounts',
 
 ]

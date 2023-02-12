@@ -85,3 +85,4 @@ class PaymentLog(models.Model):
     @admin.display(description='Month')
     def month_info(self):
         return self.month.strftime('%Y.%m')
+    

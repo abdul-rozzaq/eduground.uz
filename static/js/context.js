@@ -47,29 +47,6 @@ const body = document.querySelector('body')
 
 for (let lid of lids) {
 
-    // lid.addEventListener("contextmenu", (event) => {
-    //     event.preventDefault();
-
-    //     const {
-    //         clientX: mouseX,
-    //         clientY: mouseY
-    //     } = event;
-
-    //     const {
-    //         normalizedX,
-    //         normalizedY
-    //     } = normalizePozition(mouseX, mouseY, contextMenu, lid);
-
-    //     contextMenu.classList.remove("visible");
-
-    //     contextMenu.style.top = `${normalizedY}px`;
-    //     contextMenu.style.left = `${normalizedX}px`;
-
-    //     setTimeout(() => {
-    //         contextMenu.classList.add("visible");
-    //     });
-    // });
-
     lid.addEventListener('contextmenu', (event) => {
         event.preventDefault()
 
@@ -84,9 +61,11 @@ for (let lid of lids) {
         document.querySelector('#pk').value = pk 
 
 
+        document.querySelector('#lid-data').querySelector('u').innerText = fullName
+        document.querySelector('#delete-button').setAttribute('href', `${window.location.origin}/delete-lid/?pk=${pk.trim()}`)
+        
 
-        // console.log(firstName, phone, data);
-
+       
         const { clientX : mouseX, clientY : mouseY } = event
         
         let windowHeight = window.innerHeight,

@@ -24,6 +24,9 @@
         <div class="card d-flex">
             <p>Guruhlar <b>{{ groups.count }}</b></p>
         </div>
+        <div class="card d-flex">
+            <p>Bugungi guruhlar <b>{{ today_groups.count }}</b></p>
+        </div>
         
     </div>
     <hr>
@@ -49,7 +52,7 @@
                 Tugash vaqti
             </span>
         </li>
-        {% for i in groups %}
+        {% for i in today_groups %}
             <li class="list__item xcol-6" {% interval i as xs %} {% if xs  %} style="background-color: aqua;" {% endif %}>
                 <span>
                     <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
