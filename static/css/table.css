@@ -1,0 +1,62 @@
+ul.list {
+  padding-left: 0 !important;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.list li {
+  margin: 10px;
+  padding: 20px;
+  width: 45%;
+  display: flex;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  border-radius: 3px;
+  justify-content: space-between;
+}
+ul.list li span {
+  min-width: 33%;
+}
+
+ul.list-fluid {
+  padding-left: 0 !important;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+ul.list-fluid li.special {
+  background-color: unset;
+  box-shadow: none;
+}
+ul.list-fluid li.people span {
+  min-width: 25%;
+}
+ul.list-fluid li {
+  margin: 5px;
+  padding: 10px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+ul.list-fluid li span {
+  min-width: 33%;
+}
+ul.list-fluid li .id {
+  width: 20px;
+}
+ul.list-fluid li.xcol-5 span {
+  min-width: 25%;
+}
+ul.list-fluid li.xcol-5 .id {
+  width: 20px;
+}
+ul.list-fluid li.xcol-6 span {
+  min-width: 16.666666666%;
+}
+ul.list-fluid li.xcol-6 .id {
+  width: 20px;
+}
+
+/*# sourceMappingURL=table.css.map */

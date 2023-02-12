@@ -1,4 +1,4 @@
-{% load static %}{% load compress %}<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
 	<title>Edu Ground</title>
@@ -21,12 +21,12 @@
 	<!-- App CSS -->
 	<link id="theme-style" rel="stylesheet" href="{% static 'assets/css/portal.css' %}">
 
-	{% compress css %}
-        <link type="text/x-scss" href="{% static 'scss/modal.scss' %}" rel="stylesheet" media="screen">
-		<link type="text/x-scss" href="{% static 'scss/table.scss' %}" rel="stylesheet" media="screen">
-		<link type="text/x-scss" href="{% static 'scss/base.scss' %}" rel="stylesheet" media="screen">
-		<link type="text/x-scss" href="{% static 'scss/loader.scss' %}" rel="stylesheet" media="screen">
-    {% endcompress %}
+	
+	<link  href="{% static 'css/modal.css' %}" rel="stylesheet" >
+	<link  href="{% static 'css/table.css' %}" rel="stylesheet" >
+	<link  href="{% static 'css/base.css' %}" rel="stylesheet" >
+	<link  href="{% static 'css/loader.css' %}" rel="stylesheet" >
+
 	
 	{% block title %}
 	{% endblock title %}

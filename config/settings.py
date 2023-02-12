@@ -17,7 +17,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'compressor',
 
     'home',
     'attendance',
@@ -101,17 +100,6 @@ STATICFILES_DIRS= [BASE_DIR / 'static']
 MEDIA_URL = 'media/'
 MEDIA_ROOT = 'media'
 
-
-STATICFILES_FINDERS = (
-    'compressor.finders.CompressorFinder',
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django_scss.finders.SCSSFinder',
-)
-
-COMPRESS_PRECOMPILERS = (
-    ('text/x-scss', 'django_libsass.SassCompiler'),
-)
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

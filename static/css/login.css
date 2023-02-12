@@ -1,0 +1,110 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #8bff10);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+body {
+  background-color: #6CB4EE;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body .container {
+  border-radius: 5px;
+  padding: 50px 0px;
+  width: 400px;
+  height: max-content;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background: rgba(255, 255, 255, 0.45);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+body .container h1 {
+  text-align: center;
+  margin-bottom: 50px;
+}
+body .container form div {
+  width: 90%;
+  margin: 0 auto 20px auto;
+}
+body .container form div label {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 10px;
+}
+body .container form div input {
+  font-size: 15px;
+  margin: 0 auto;
+  border: 1px solid #cad0d6;
+  outline: none;
+  width: 100%;
+  height: 35px;
+  padding-left: 10px;
+}
+body .container form div button {
+  padding: 8px 20px;
+  color: #fff;
+  background-color: #6CB4EE;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+body .container form div button:hover {
+  background-color: #47a7f6;
+}
+body .container form div select {
+  font-size: 15px;
+  margin: 0 auto;
+  border: 1px solid #cad0d6;
+  outline: none;
+  width: 100%;
+  height: 35px;
+  padding-left: 10px;
+}
+body .container form .center {
+  display: flex;
+  justify-content: center;
+}
+body .container form span {
+  display: block;
+  width: 90%;
+  margin: 0 auto 50px auto;
+}
+body .container form span input {
+  margin-right: 10px;
+}
+
+/*# sourceMappingURL=login.css.map */

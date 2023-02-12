@@ -1,0 +1,96 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+html #context-menu,
+body #context-menu {
+  border: 1px solid rgb(191, 191, 191);
+  position: fixed;
+  z-index: 10000;
+  background: #ffffff;
+  border-radius: 5px;
+  transform: scale(0);
+  transform-origin: top left;
+  box-sizing: border-box;
+  width: 300px;
+}
+html #context-menu .context-button,
+body #context-menu .context-button {
+  border-radius: inherit;
+  padding: 10px;
+  box-sizing: border-box;
+  display: block;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #343434;
+}
+html #context-menu .context-button:hover,
+body #context-menu .context-button:hover {
+  background-color: aliceblue;
+}
+html #context-menu .move,
+body #context-menu .move {
+  transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+html #context-menu .move:hover,
+body #context-menu .move:hover {
+  color: white;
+  background-color: #5cb377;
+}
+html #context-menu .delete,
+body #context-menu .delete {
+  transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+html #context-menu .delete:hover,
+body #context-menu .delete:hover {
+  color: white;
+  background-color: red;
+}
+html #context-menu .edit,
+body #context-menu .edit {
+  transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+html #context-menu .edit:hover,
+body #context-menu .edit:hover {
+  color: white;
+  background-color: #eebf41;
+}
+html #context-menu.visible,
+body #context-menu.visible {
+  transform: scale(1);
+  transition: transform 200ms ease-in-out;
+}
+
+.modal .d-flex {
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+.modal .delete {
+  color: white;
+  background-color: red;
+  padding: 6px 20px;
+  border-radius: 5px;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal .delete:hover {
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.modal ._close {
+  color: white;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background-color: dodgerblue;
+  padding: 6px 20px;
+  border-radius: 5px;
+}
+.modal ._close:hover {
+  color: white;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.modal .center {
+  text-align: center;
+}
+
+/*# sourceMappingURL=context.css.map */

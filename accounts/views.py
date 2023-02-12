@@ -39,7 +39,6 @@ def user_login(request: WSGIRequest):
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
-            print(request.POST)
             try:
                 user = authenticate(request=request, username=username, password=password)
 

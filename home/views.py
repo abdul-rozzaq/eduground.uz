@@ -49,7 +49,6 @@ def calc_couse_price(date, group:Group):
         except Exception as e:
             break
 
-    print('lessons',lessons)
     return group.course.price / calc_all_days(year, month, group) * lessons
 
 
@@ -176,7 +175,6 @@ def peoples(request: WSGIRequest):
                             int(day)
                         )
 
-                        print(full_name, phone, birthday)
                         People.objects.create(
                             ec=ec,
                             full_name=full_name,
@@ -279,7 +277,6 @@ def group(request: WSGIRequest):
             )
 
             for i in days:
-                print(i)
                 new_group.days.add(Day.objects.get(pk=int(i)))
 
         except Exception as e:
@@ -381,7 +378,6 @@ def group_detail(request: WSGIRequest, pk):
                 group.days.clear()
 
                 for i in days:
-                    print(i)
                     group.days.add(Day.objects.get(pk=int(i)))
 
                 group.save()
@@ -433,8 +429,6 @@ def course_detail(request: WSGIRequest, pk):
             name = data.get('name')
             duration = data.get('duration')
             price = data.get('price')
-
-            print(pk, name)
 
             course.name = name
             course.duration = duration

@@ -9,8 +9,6 @@ def safetime(x):
     hour = x.split(':')[0]
     min = x.split(':')[1]
     time = f'{hour}:{min}'
-    print(x)
-    print(time)
 
     return time
     

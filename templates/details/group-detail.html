@@ -1,15 +1,14 @@
 {% extends 'base.html' %}
-{% load compress %}
+
 {% load static %}
 {% load safetime %}
 
 {% block title %}
-    {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss/detail/group.scss' %}" rel="stylesheet" media="screen">
-        <link type="text/x-scss" href="{% static 'scss/davomat.scss' %}" rel="stylesheet" media="screen">
-        <link type="text/x-scss" href="{% static 'scss/context.scss' %}" rel="stylesheet" media="screen">
-    {% endcompress css %}
-        <script src="{% static 'js/jquery.min.js' %}"></script>
+    <link  href="{% static 'css/detail/group.css' %}" rel="stylesheet" >
+    <link  href="{% static 'css/davomat.css' %}" rel="stylesheet" >
+    <link  href="{% static 'css/context.css' %}" rel="stylesheet" >
+    
+    <script src="{% static 'js/jquery.min.js' %}"></script>
 {% endblock title %}
 
 {% block form %}

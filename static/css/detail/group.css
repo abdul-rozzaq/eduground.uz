@@ -1,0 +1,60 @@
+._wrapper {
+  padding: 10px;
+  border-radius: 3px;
+  gap: 10px;
+  display: flex;
+  width: 100%;
+}
+._wrapper .info,
+._wrapper ._list {
+  padding: 10px;
+  border-radius: 3px;
+}
+._wrapper .info {
+  height: max-content;
+  background-color: white;
+  width: 30%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+  font-weight: 500;
+}
+._wrapper .info .xbtn {
+  width: 40px;
+  height: 40px;
+  font-size: 12px;
+  border: none;
+  border-radius: 50%;
+  border: 1px solid #15a362;
+  padding: 10px;
+}
+._wrapper .info .float {
+  float: right;
+}
+._wrapper ._list {
+  width: 70%;
+}
+
+.list-button {
+  border-radius: 3px;
+  padding: 7px 20px;
+  transition: 0.2s ease-in-out;
+  border: 1px solid #15a362;
+  background-color: white;
+  color: #15a362;
+}
+.list-button:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  background-color: #15a362;
+  color: white;
+}
+
+.list-button.active {
+  background-color: #15a362;
+  color: white;
+  border: 1px solid #15a362;
+}
+.list-button.active:hover {
+  background-color: #15a362;
+  color: white;
+}
+
+/*# sourceMappingURL=group.css.map */

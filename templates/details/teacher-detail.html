@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
-{% load compress %}
+
 {% load static %}
 
 {% block title %}
-    {% compress css %}
-        <link type="text/x-scss" href="{% static 'scss\detail\teacher.scss' %}" rel="stylesheet" media="screen">
-    {% endcompress css %}
+    <link  href="{% static 'css\detail\teacher.css' %}" rel="stylesheet" >
 {% endblock title %}
 
 {% block form %}
