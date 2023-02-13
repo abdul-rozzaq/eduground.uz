@@ -100,12 +100,35 @@
             </div>
         </div>
     </div>
+
+    <div class="back d-none" data-modal-name="move">
+        <div class="modal">
+            <div class="close" data-modal-id="move">&times;</div>
+
+            <form method="post">{% csrf_token %}
+                <label for="group-select" class="h5">Guruhni tanlang</label>
+                <select id="group-select" name="group-id" class="form-control mb-3" required>
+                    {% for i in groups %}
+                    <option value="{{ i.pk }}">{{ i.name }}</option>
+                    {% endfor %}
+                </select>
+                <label for="birthday" class="h5">Tu'gilgan sana</label>
+                <input type="date" name="birthday" class="form-control mb-3" id="birthday" required>
+                
+                <input type="hidden" name="lid-id" value="" id="lid-id">
+                <input type="hidden" name="command" value="add-group">
+
+
+                <button class="btn btn-primary text-white" type="submit">Kurs yaratish</button>
+            </form>
+        </div>
+    </div>
 {% endblock %}
 
 
 {% block context %}
     <div id="context-menu">
-        <div class="context-button move open-modal" >Guruhga o'tkazish</div>
+        <div class="context-button move open-modal" data-modal-id="move">Guruhga o'tkazish</div>
         <div class="context-button edit open-modal" data-modal-id="edit">Tahrirlash</div>
         <div class="context-button delete open-modal" data-modal-id="delete">O'chirish</div>
     </div>

@@ -4,9 +4,9 @@ body {
     margin: 0;
 
     #context-menu {
-        border: 1px solid rgb(191, 191, 191);
+        border: 1px solid #bfbfbf;
         position: fixed;
-        z-index: 10000;
+        z-index: 100000;
         background: #ffffff;
         border-radius: 5px;
         transform: scale(0);
@@ -15,8 +15,8 @@ body {
         width: 300px;
 
         .context-button {
-            border-radius: inherit;
-            padding: 10px;
+            border-radius: 0px;
+            padding: 5px;
             box-sizing: border-box;
             display: block;
             box-sizing: border-box;
@@ -28,7 +28,9 @@ body {
             }
         }
         .move {
-            transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);            
+            border-top-right-radius: inherit;
+            border-top-left-radius: inherit;
 
             &:hover {
                 color: white;
@@ -38,6 +40,8 @@ body {
 
         .delete {
             transition: 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+            border-bottom-right-radius: inherit;
+            border-bottom-left-radius: inherit;
 
             &:hover {
                 color: white;

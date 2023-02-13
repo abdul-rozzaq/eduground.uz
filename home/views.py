@@ -126,12 +126,27 @@ def lids(request: WSGIRequest):
             lid.phone = phone
             lid.save()
 
+        elif command == 'add-group':
+            group_id = request.POST.get('group-id')
+            lid_id = request.POST.get('lid-id')
+            birthday = request.POST.get('birthday')
+
+            group = Group.objects.get(pk=group_id)
+            lid = Lid.objects.get(pk=lid_id)
+
+            people = People.objects.create(birthday=birthday, full_name=lid.full_name, phone=lid.phone, ec=ec)
+
+            group.peoples.add(people)
+
+            lid.delete()            
+            
 
     lids = Lid.objects.filter(ec=ec)
 
     context = {
         'ec': ec,
         'page_name': 'Lid',
+        'groups': Group.objects.filter(course__ec=ec),
         'lids': lids
     }
 

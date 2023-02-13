@@ -63,6 +63,7 @@ for (let lid of lids) {
 
         document.querySelector('#lid-data').querySelector('u').innerText = fullName
         document.querySelector('#delete-button').setAttribute('href', `${window.location.origin}/delete-lid/?pk=${pk.trim()}`)
+        document.querySelector('#lid-id').value = pk.trim()
         
 
        
