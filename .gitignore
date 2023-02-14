@@ -13,3 +13,4 @@ media
 *.scss
 .env
 media/*
+env/
