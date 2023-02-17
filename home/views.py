@@ -1,6 +1,7 @@
 import datetime
 import openpyxl
 
+from attendance.models import *
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect
 
@@ -15,6 +16,50 @@ days = {
     'Saturday' : 'Shanba',
     'Sunday' : 'Yakshanba',
 }
+
+def sorter(x:dict):
+    def get(l:list, s:str):
+        for i in l:
+            if i['day'] == s:
+                return True, i
+
+        return False, None
+
+
+    resp = []
+
+    for i in x.keys():
+        splited = str(i).split('x')
+
+        if not get(resp, splited[1])[0]:
+            resp.append({
+                'day' : splited[1],
+                'peoples' : []
+            })
+
+        z = get(resp, splited[1])[1]
+
+        z['peoples'].append(splited[0])
+
+    return resp
+
+
+def group_days_list(group):
+    day = 1
+    x = []
+
+    while True:
+        try:
+            date = datetime.date(datetime.date.today().year, datetime.date.today().month, day)   
+            day += 1
+            if Day.objects.get(name=days[str(date.strftime('%A'))]) in group.days.all():
+                x.append(int(date.day))
+
+        except Exception as e:
+            break
+
+    return x
+
 
 def calc_all_days(year, month, group):
     day = 1
@@ -411,6 +456,32 @@ def group_detail(request: WSGIRequest, pk):
 
             except Exception as e:
                 print('Error', str(e).strip())
+        elif command == 'attendance':
+            attendance_list = request.POST.copy()
+            attendance_list.pop('csrfmiddlewaretoken')
+            attendance_list.pop('command')
+
+            data = sorter(attendance_list) 
+            print(data)
+            
+            for w in Attendance.objects.filter(date__year=datetime.date.today().year, date__month=datetime.date.today().month, group=group):
+                w.peoples.clear()
+            
+            
+            for y in data:
+                at = Attendance.objects.get(
+                    group=group,
+                    date=datetime.date(datetime.date.today().year, datetime.date.today().month, int(y['day']))
+                )
+                print('Name:', at.group.name)
+                print('Peoples:',at.peoples.all())
+                at.peoples.clear()
+                print('Peoples:',at.peoples.all())
+
+                for i in y['peoples']:
+                    at.peoples.add(People.objects.get(pk=int(i)))
+            
+            
 
     courses = Course.objects.filter(ec=ec)
     teachers = Teacher.objects.filter(ec=ec)
@@ -426,6 +497,7 @@ def group_detail(request: WSGIRequest, pk):
         'groups': groups,
         'days': days,
         'peoples': peoples,
+        'group_days': group_days_list(group),
     }
 
     return render(request, 'details/group-detail.html', context)

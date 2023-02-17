@@ -2,10 +2,11 @@
 
 {% load static %}
 {% load safetime %}
+{% load attendance %}
 
 {% block title %}
     <link  href="{% static 'css/detail/group.css' %}" rel="stylesheet" >
-    <link  href="{% static 'css/davomat.css' %}" rel="stylesheet" >
+    <link  href="{% static 'css/attendace.css' %}" rel="stylesheet" >
     <link  href="{% static 'css/context.css' %}" rel="stylesheet" >
     
     <script src="{% static 'js/jquery.min.js' %}"></script>
@@ -114,6 +115,10 @@
         <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a
             href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
     </div>
+    <div class="d-flex gap-2 mb-2">
+        <div class="list-button ">O'quvchilar</div>
+        <div class="list-button active">Davomat</div>
+    </div>
     <div class="_wrapper">
         <div class="info p-3">
             <div class="float">
@@ -138,10 +143,7 @@
 
         </div>
         <div class="_list">
-            <div class="d-flex gap-2 mb-2">
-                <div class="list-button ">O'quvchilar</div>
-                <div class="list-button active">Davomat</div>
-            </div>
+            
             <div class="_page d-none">
                 <ul class="list-fluid">
                     <li class="special people">
@@ -176,32 +178,62 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="_page ">
-                <table class="">
-                    {% for i in group.peoples.all %}
-                        <tr>
-                            <td>{{ i.full_name }}</td>
-                            <td>W</td>
-                            <td>W</td>
+            <div class="_page">
+                <form method="post" id="attendance">{% csrf_token %}
+                    <input type="hidden" name="command" value="attendance">
+                    <table>
+                        <tr class="th">
+                            <td class="people__info">Ism Familiya</td>
+                            {% for d in group_days %}
+                            <td class="day">{{ d }}</td>
+                            {% endfor %}
+                            <td class="last">Kelgan</td>
+                            <td class="last">Kelmagan</td>
                         </tr>
-                    {% endfor %}
-                    
-                </table>
+            
+                        {% for i in group.peoples.all %}
+                            <tr class="tr">
+                                <td class="people__info">{{ i.full_name }}</td>
+                                {% for d in group_days %}
+                                <td class="people__data checkbox">
+                                    <input type="checkbox" {% attendance group i d %} name="{{i.pk}}x{{d}}">
+                                </td>
+                                {% endfor %}
+                                <td class="people__data last">0</td>
+                                <td class="people__data last">0</td>
+                            </tr>
+                        {% endfor %}
+                        
+                    </table>
+                </form>
             </div>
         </div>
     </div>
 {% endblock %}
 
+
+{% block save-button %}
+    <div class="save-button active">Saqlash</div>
+{% endblock save-button %}
+
+
 {% block script %}
     <script src="{% static 'js/api.js' %}"></script>
     <script src="{% static 'js/toggle.js' %}"></script>
+    <script>
+        let btn = document.querySelector('.save-button.active')
+
+        btn.addEventListener('click', (e) => {
+            document.querySelector('#attendance').submit()
+        })
+    </script>
 {% endblock script %}
 
 {% block context %}
-<div id="context-menu">
-    <a href="#" class="context-button move">Guruhga o'tkazish</a>
-    <a href="#" class="context-button edit">Tahrirlash</a>
-    <a href="#" class="context-button delete">O'chirish</a>
-</div>
+    <div id="context-menu">
+        <a href="#" class="context-button move">Guruhga o'tkazish</a>
+        <a href="#" class="context-button edit">Tahrirlash</a>
+        <a href="#" class="context-button delete">O'chirish</a>
+    </div>
 {% endblock context %}
 

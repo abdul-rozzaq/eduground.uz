@@ -1,0 +1,77 @@
+table, tr, td {
+  border: 1px solid #bfbfbf;
+}
+
+table tr.th td {
+  padding: 10px;
+  font-size: 18px;
+}
+table tr.th td.people__info {
+  padding: 10px;
+  font-weight: bold;
+}
+table tr.th td.day {
+  vertical-align: middle;
+  text-align: center;
+  font-weight: bold;
+}
+table tr.th td.last {
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
+}
+table tr.tr td input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+}
+table tr.tr td.people__info {
+  padding: 10px;
+  font-weight: bold;
+}
+table tr.tr td.people__data {
+  padding-top: 10px;
+  width: 50px;
+  text-align: center;
+  vertical-align: middle;
+}
+table tr.tr td.last {
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
+}
+
+/*
+
+
+
+.th td.day {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+.people__info {
+    padding: 10px;
+}
+
+.people__data {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.people__data.day, .people__info.day {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+*/
+
+/*# sourceMappingURL=attendace.css.map */

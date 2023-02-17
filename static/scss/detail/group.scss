@@ -38,8 +38,9 @@
     }
 }
 
-.list-button {
-    border-radius: 3px;
+.list-button, .save-button {
+    cursor: pointer;
+    border-radius: 0.375em;
     padding: 7px 20px;
     transition: .2s ease-in-out;
 
@@ -54,7 +55,7 @@
     }
 }
 
-.list-button.active {
+.list-button.active, .save-button {
     background-color: #15a362;
     color: white;
     border: 1px solid #15a362;

@@ -33,26 +33,27 @@
   width: 70%;
 }
 
-.list-button {
-  border-radius: 3px;
+.list-button, .save-button {
+  cursor: pointer;
+  border-radius: 0.375em;
   padding: 7px 20px;
   transition: 0.2s ease-in-out;
   border: 1px solid #15a362;
   background-color: white;
   color: #15a362;
 }
-.list-button:hover {
+.list-button:hover, .save-button:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   background-color: #15a362;
   color: white;
 }
 
-.list-button.active {
+.list-button.active, .save-button {
   background-color: #15a362;
   color: white;
   border: 1px solid #15a362;
 }
-.list-button.active:hover {
+.list-button.active:hover, .save-button:hover {
   background-color: #15a362;
   color: white;
 }

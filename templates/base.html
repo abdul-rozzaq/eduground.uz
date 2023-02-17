@@ -59,7 +59,7 @@
 			</div>
 		</div>
 	{% endif %}
-	<div class="loader-back">
+	<div class="loader-back d-none">
 		<div class="loader"></div>
 	</div>
 	<header class="app-header fixed-top">
@@ -98,9 +98,10 @@
 								{% if page_name == "Talaba" %}
 									<button class="btn xsbtn text-white open-modal" data-modal-id="excel">Excel dan yuklash</button>
 								{% endif %}
-								
 								<button class="btn btn-primary text-white open-modal" data-modal-id="add-modal"> {{ page_name }} qo'shish</button>
-							{% endif %}
+								{% endif %}
+							{% block save-button %}
+							{% endblock save-button %}
 							<a href="{% url 'logout' %}" role="button" aria-expanded="false">{{ user.username }}</a>
 						</div>
 					</div>
