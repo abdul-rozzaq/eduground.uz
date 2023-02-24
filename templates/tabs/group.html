@@ -68,7 +68,7 @@
             <label for="cource" class="h5">Qaysi kurs uchun guruh ochmoqchisiz</label>
             <select id="cource" name="course" class="form-control mb-3" required>
                 {% for i in courses %}
-                <option value="{{ i.pk }}">{{ i.name }}</option>
+                    <option value="{{ i.pk }}">{{ i.name }}</option>
                 {% endfor %}
             </select>
             {% else %}
@@ -79,7 +79,7 @@
             <label for="teacher" class="h5">O'qituvchi tanlang</label>
             <select id="teacher" name="teacher" class="form-control mb-3" required>
                 {% for i in teachers %}
-                <option value="{{ i.pk }}">{{ i.full_name }}</option>
+                    <option value="{{ i.pk }}">{{ i.full_name }}</option>
                 {% endfor %}
             </select>
             {% else %}
@@ -89,13 +89,10 @@
             <label for="days" class="h5">Kunlar</label>
             <select name="days" class="form-control" multiple id="days" required>
                 {% for i in days %}
-                <option value="{{ i.pk }}">{{ i.name }}</option>
+                    <option value="{{ i.pk }}">{{ i.name }}</option>
                 {% endfor %}
             </select>
-            <label for="is_active">Holati</label>
-            <input type="radio" name="is_active" value="True" />&nbsp; Aktiv
-            <input type="radio" name="is_active" value="False" />&nbsp; Aktiv emas 
-    
+
             <label for="start-time" class="h5">Boshlanish vaqti</label>
             <input type="time" class="form-control mb-3" id="start-time" name="start-time" onchange="change()" required>
     

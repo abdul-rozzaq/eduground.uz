@@ -115,9 +115,9 @@
         <a href="{% url 'course-detail' group.course.pk %}">{{ group.course.name }}</a> • {{ group.name }} • <a
             href="{% url 'teacher-detail' group.teacher.pk  %}">{{ group.teacher.full_name }}</a>
     </div>
-    <div class="d-flex gap-2 mb-2">
-        <div class="list-button ">O'quvchilar</div>
-        <div class="list-button active">Davomat</div>
+    <div class="d-flex gap-2 m-3">
+        <div class="list-button active">O'quvchilar</div>
+        <div class="list-button ">Davomat</div>
     </div>
     <div class="_wrapper">
         <div class="info p-3">
@@ -144,7 +144,7 @@
         </div>
         <div class="_list">
             
-            <div class="_page d-none">
+            <div class="_page ">
                 <ul class="list-fluid">
                     <li class="special people">
                         <span class="h5">
@@ -178,7 +178,7 @@
                     {% endfor %}
                 </ul>
             </div>
-            <div class="_page">
+            <div class="_page d-none">
                 <form method="post" id="attendance">{% csrf_token %}
                     <input type="hidden" name="command" value="attendance">
                     <table>
@@ -195,9 +195,9 @@
                             <tr class="tr">
                                 <td class="people__info">{{ i.full_name }}</td>
                                 {% for d in group_days %}
-                                <td class="people__data checkbox">
-                                    <input type="checkbox" {% attendance group i d %} name="{{i.pk}}x{{d}}">
-                                </td>
+                                    <td class="people__data checkbox">
+                                        <input type="checkbox" {% attendance group i d %} name="{{i.pk}}x{{d}}">
+                                    </td>
                                 {% endfor %}
                                 <td class="people__data last">0</td>
                                 <td class="people__data last">0</td>

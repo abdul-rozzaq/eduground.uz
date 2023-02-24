@@ -17,6 +17,7 @@ days = {
     'Sunday' : 'Yakshanba',
 }
 
+
 def sorter(x:dict):
     def get(l:list, s:str):
         for i in l:
@@ -325,7 +326,7 @@ def group(request: WSGIRequest):
             end_time = f'{hour}:{min}'
             teacher = Teacher.objects.get(pk=teacher_id)
             course = Course.objects.get(pk=course_id)
-            is_active = request.POST.get('is_active')
+            is_active = True # request.POST.get('is_active')
 
             new_group = Group.objects.create(
                 name=group_name,

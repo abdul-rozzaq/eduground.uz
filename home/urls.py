@@ -12,8 +12,10 @@ urlpatterns = [
     path('group/', group, name='group'),
     path('finance/', finance, name='finance'),
     path('settings/', settings, name='settings'),
+    path('discount/', settings, name='discount'),
 
     path('delete-lid/', delete_lid, name='delete-lid'),
+
     # Detail
 
     path('group/<int:pk>/', group_detail, name='group-detail'),
