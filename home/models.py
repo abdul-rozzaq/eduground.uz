@@ -21,7 +21,6 @@ class People(models.Model):
     ec = models.ForeignKey(EducationCenter, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=256)
     phone = models.CharField(max_length=15)
-    birthday = models.DateField()
     balans = models.IntegerField(default=0)
 
     def __str__(self):
@@ -31,7 +30,6 @@ class Teacher(models.Model):
     ec = models.ForeignKey(EducationCenter, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=256)
     phone = models.CharField(max_length=15)
-    birthday = models.DateField()
 
     def __str__(self):
         return self.full_name

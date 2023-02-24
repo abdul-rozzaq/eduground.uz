@@ -175,12 +175,12 @@ def lids(request: WSGIRequest):
         elif command == 'add-group':
             group_id = request.POST.get('group-id')
             lid_id = request.POST.get('lid-id')
-            birthday = request.POST.get('birthday')
+        
 
             group = Group.objects.get(pk=group_id)
             lid = Lid.objects.get(pk=lid_id)
 
-            people = People.objects.create(birthday=birthday, full_name=lid.full_name, phone=lid.phone, ec=ec)
+            people = People.objects.create(full_name=lid.full_name, phone=lid.phone, ec=ec)
 
             group.peoples.add(people)
 
@@ -209,13 +209,12 @@ def peoples(request: WSGIRequest):
             try:
                 full_name = request.POST.get('full-name')
                 phone = request.POST.get('phone')
-                birthday = request.POST.get('birthday')
+                
 
                 people = People.objects.create(
                     ec=ec,
                     full_name=full_name,
                     phone=phone,
-                    birthday=birthday
                 )
 
             except Exception as e:
@@ -229,18 +228,11 @@ def peoples(request: WSGIRequest):
                     if i[0] and i[1] and i[2]:
                         full_name = i[0].strip()
                         phone = i[1]
-                        year, month, day = i[2].split('.')
-                        birthday = datetime.date(
-                            int(year), 
-                            int(month), 
-                            int(day)
-                        )
 
                         People.objects.create(
                             ec=ec,
                             full_name=full_name,
                             phone=phone,
-                            birthday=birthday
                         )
 
             except Exception as e:
@@ -263,14 +255,12 @@ def teachers(request: WSGIRequest):
         try:
             full_name = request.POST.get('full-name')
             phone = request.POST.get('phone')
-            birthday = request.POST.get('birthday')
 
             # new_teacher
             new_teacher = Teacher.objects.create(
                 ec=ec,
                 full_name=full_name,
                 phone=phone,
-                birthday=birthday
             )
 
         except Exception as e:
