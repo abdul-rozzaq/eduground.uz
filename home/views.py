@@ -225,7 +225,7 @@ def peoples(request: WSGIRequest):
                 array = excel_reader(file)
 
                 for i in array:
-                    if i[0] and i[1] and i[2]:
+                    if i[0] and i[1]:
                         full_name = i[0].strip()
                         phone = i[1]
 
