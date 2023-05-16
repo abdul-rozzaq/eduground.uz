@@ -18,11 +18,11 @@ days = {
     'Sunday' : 'Yakshanba',
 }
 
-def wuzzy(ec: EducationCenter, name):
-    peoples = People.objects.filter(ec=ec)
-    names = [x.full_name for x in peoples]
+# def wuzzy(ec: EducationCenter, name):
+#     peoples = People.objects.filter(ec=ec)
+#     names = [x.full_name for x in peoples]
 
-    return process.extract(name, names, limit=10)
+#     return process.extract(name, names, limit=10)
 
 
 def get_clean_name(name):
@@ -136,7 +136,7 @@ def home_page(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
 
-    print(wuzzy(ec))
+    # print(wuzzy(ec))
 
     if ec:
         if request.user.is_authenticated:
