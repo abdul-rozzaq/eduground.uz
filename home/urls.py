@@ -11,6 +11,7 @@ urlpatterns = [
     path('courses/', course, name='course'),
     path('group/', group, name='group'),
     path('finance/', finance, name='finance'),
+    path('exp/', exp, name='exp'),
     path('settings/', settings, name='settings'),
     path('discount/', settings, name='discount'),
 

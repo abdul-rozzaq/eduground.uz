@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load xtime %}
+{% load safetime %}
+
+
+
+
+{% block content %}
+    <div class="wrapper">
+        <div class="card d-flex">
+            <p>Lidlar <b>{{ lids.count }}</b></p>
+        </div>
+        <div class="card d-flex">
+            <p>Talabalar <b>{{ peoples.count }}</b></p>
+        </div>
+        <div class="card d-flex">
+            <p>O'qituvchilar <b>{{ teachers.count }}</b></p>
+        </div>
+        <div class="card d-flex">
+            <p>Kurslar <b>{{ courses.count }}</b></p>
+        </div>
+        <div class="card d-flex">
+            <p>Guruhlar <b>{{ groups.count }}</b></p>
+        </div>
+        <div class="card d-flex">
+            <p>Bugungi guruhlar <b>{{ today_groups.count }}</b></p>
+        </div>
+        
+    </div>
+    <hr>
+    <span class="h2">Bugungi guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
+    <ul class="list-fluid mt-3">
+        <li class="special people xcol-6">
+            <span class="h5">
+                Nomi
+            </span>
+            <span class="h5">
+                O'qituvchi
+            </span>
+            <span class="h5">
+                Kurs nomi
+            </span>
+            <span class="h5">
+                O'quvchilar soni
+            </span>
+            <span class="h5">
+                Boshlanish vaqti
+            </span>
+            <span class="h5">
+                Tugash vaqti
+            </span>
+        </li>
+        {% for i in today_groups %}
+            <li class="list__item xcol-6" {% interval i as xs %} {% if xs  %} style="background-color: aqua;" {% endif %}>
+                <span>
+                    <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
+                </span>
+                <span>
+                    <a href="{% url 'teacher-detail' i.teacher.pk %}">{{ i.teacher.full_name }}</a>
+                </span>
+                <span>
+                    {{ i.course.name }}
+                </span>
+                <span>
+                    {{ i.peoples.count }}
+                </span>
+                <span>
+                    {% safetime i.start_time|safe %}
+                </span>
+                <span>
+                    {% safetime i.end_time|safe %}
+                </span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

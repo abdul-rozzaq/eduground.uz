@@ -1,77 +1,258 @@
 {% extends 'base.html' %}
 
 {% load xtime %}
+{% load static %}
 {% load safetime %}
+{% load getPeoplesCount %}
+{% block title %}
 
+<script src="{% static 'js/chart.js' %}"></script>
+
+{% endblock %}
 
 
 
 {% block content %}
-    <div class="wrapper">
-        <div class="card d-flex">
-            <p>Lidlar <b>{{ lids.count }}</b></p>
-        </div>
-        <div class="card d-flex">
-            <p>Talabalar <b>{{ peoples.count }}</b></p>
-        </div>
-        <div class="card d-flex">
-            <p>O'qituvchilar <b>{{ teachers.count }}</b></p>
-        </div>
-        <div class="card d-flex">
-            <p>Kurslar <b>{{ courses.count }}</b></p>
-        </div>
-        <div class="card d-flex">
-            <p>Guruhlar <b>{{ groups.count }}</b></p>
-        </div>
-        <div class="card d-flex">
-            <p>Bugungi guruhlar <b>{{ today_groups.count }}</b></p>
-        </div>
-        
+
+<div class="wrapper">
+    <div class="card d-flex">
+        <p>Lidlar <b>{{ lids.count }}</b></p>
     </div>
-    <hr>
-    <span class="h2">Bugungi guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
-    <ul class="list-fluid mt-3">
-        <li class="special people xcol-6">
-            <span class="h5">
-                Nomi
-            </span>
-            <span class="h5">
-                O'qituvchi
-            </span>
-            <span class="h5">
-                Kurs nomi
-            </span>
-            <span class="h5">
-                O'quvchilar soni
-            </span>
-            <span class="h5">
-                Boshlanish vaqti
-            </span>
-            <span class="h5">
-                Tugash vaqti
-            </span>
-        </li>
-        {% for i in today_groups %}
-            <li class="list__item xcol-6" {% interval i as xs %} {% if xs  %} style="background-color: aqua;" {% endif %}>
-                <span>
-                    <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
-                </span>
-                <span>
-                    <a href="{% url 'teacher-detail' i.teacher.pk %}">{{ i.teacher.full_name }}</a>
-                </span>
-                <span>
-                    {{ i.course.name }}
-                </span>
-                <span>
-                    {{ i.peoples.count }}
-                </span>
-                <span>
-                    {% safetime i.start_time|safe %}
-                </span>
-                <span>
-                    {% safetime i.end_time|safe %}
-                </span>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="card d-flex">
+        <p>Talabalar <b>{{ peoples.count }}</b></p>
+    </div>
+    <div class="card d-flex">
+        <p>O'qituvchilar <b>{{ teachers.count }}</b></p>
+    </div>
+    <div class="card d-flex">
+        <p>Kurslar <b>{{ courses.count }}</b></p>
+    </div>
+    <div class="card d-flex">
+        <p>Guruhlar <b>{{ groups.count }}</b></p>
+    </div>
+    <div class="card d-flex">
+        <p>Bugungi guruhlar <b>{{ today_groups.count }}</b></p>
+    </div>
+
+</div>
+
+<hr>
+<span class="h2">Statistika</span>
+<div class="charts">
+    <canvas id="lineChart" class="chart"></canvas>
+    <div class="pie-chart chart">
+        <div class="info">
+            <div class="inf">
+                <span class="box1"></span>
+                <span class="text">To'langan <b>90%</b></span>
+            </div>
+            <div class="inf">
+                <span class="box2"></span>
+                <span class="text">To'lanmagan <b>10%</b></span>
+            </div>
+        </div>
+        <div class="pie-chart__item" style="background: conic-gradient(#14A44D 60%, #E4A11B 40%);"></div>
+    </div>
+</div>
+
+<hr>
+<span class="h2">Bugungi guruhlar</span><span class="m-3">Miqdori - {{ groups.count }}</span>
+<ul class="list-fluid mt-3">
+    <li class="special people xcol-6">
+        <span class="h5">
+            Nomi
+        </span>
+        <span class="h5">
+            O'qituvchi
+        </span>
+        <span class="h5">
+            Kurs nomi
+        </span>
+        <span class="h5">
+            O'quvchilar soni
+        </span>
+        <span class="h5">
+            Boshlanish vaqti
+        </span>
+        <span class="h5">
+            Tugash vaqti
+        </span>
+    </li>
+    {% for i in today_groups %}
+    <li class="list__item xcol-6" {% interval i as xs %} {% if xs  %} style="background-color: aqua;" {% endif %}>
+        <span>
+            <a href="{% url 'group-detail' i.pk %}">{{ i.name }}</a>
+        </span>
+        <span>
+            <a href="{% url 'teacher-detail' i.teacher.pk %}">{{ i.teacher.full_name }}</a>
+        </span>
+        <span>
+            {{ i.course.name }}
+        </span>
+        <span>
+            {{ i.peoples.count }}
+        </span>
+        <span>
+            {% safetime i.start_time|safe %}
+        </span>
+        <span>
+            {% safetime i.end_time|safe %}
+        </span>
+    </li>
+    {% endfor %}
+</ul>
+
+
+
+<script>
+    const line = document.getElementById('lineChart').getContext('2d');
+
+    const x = new Chart(line, {
+        type: 'line',
+        data: {
+            labels: [12, 13, 14, 15, 16, 10],
+            datasets: [{
+                label: null,
+                display: false,
+                data: [45, 50, 55, 30, 10, 40],
+                borderColor: 'rgb(75, 112, 192)',
+                tension: 0.1
+            }, ]
+        },
+        options: {
+            // responsive: true,
+            // maintainAspectRatio: false,
+            title: {
+                display: false,
+            },
+            legend: {
+                display: false,
+                position: 'bottom'
+            }
+        }
+    });
+
+
+    const pie = document.getElementById('pieChart').getContext('2d');
+
+    const y = new Chart(pie, {
+        type: 'pie',
+        data: {
+            labels: ['To\'lov qilingan', 'To\'lov qilinmagan'],
+            datasets: [{
+                label: 'O\'quvchilar',
+                data: [31, 69],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            aspectRatio: 16/9,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'To\'lov statistikasi'
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            }
+        }
+    });
+</script>
 {% endblock %}
+
+
+<!-- 
+<div class="charts">
+    <canvas id="lineChart" class="chart"></canvas>
+    <canvas id="pieChart" class="chart"></canvas>
+</div>
+
+
+<script>
+    const line = document.getElementById('lineChart').getContext('2d');
+
+    const x = new Chart(line, {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'O\'quvchilar',
+                data: [0, 10, 5, 2, 20, 30, 10],
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }, ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+    const pie = document.getElementById('pieChart').getContext('2d');
+
+    const y = new Chart(pie, {
+        type: 'pie',
+        data: {
+            labels: ['To\'lov qilingan', 'To\'lov qilinmagan'],
+            datasets: [{
+                    label: 'O\'quvchilar',
+                    data: [31, 69],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1,
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                    ],
+                },
+
+            ],
+
+
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+
+.charts {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    height: 600px;
+
+
+    .chart {
+        width: 48%;
+        max-height: 48%;
+        // background-color: white;
+    }
+}
+
+
+
+
+
+
+
+
+
+ -->

@@ -4,6 +4,7 @@ import openpyxl
 from attendance.models import *
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect
+from fuzzywuzzy import process, fuzz
 
 from home.models import *
 
@@ -16,6 +17,22 @@ days = {
     'Saturday' : 'Shanba',
     'Sunday' : 'Yakshanba',
 }
+
+def wuzzy(ec: EducationCenter, name):
+    peoples = People.objects.filter(ec=ec)
+    names = [x.full_name for x in peoples]
+
+    return process.extract(name, names, limit=10)
+
+
+def get_clean_name(name):
+    try:
+        ec = EducationCenter.objects.get(name=name)
+
+        return False
+    except EducationCenter.DoesNotExist:
+        print('Name is DoesNotExist')
+        return True
 
 
 def sorter(x:dict):
@@ -117,8 +134,11 @@ def excel_reader(file):
 
 def home_page(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
-    if ec_id:
-        ec = EducationCenter.objects.get(pk=ec_id)
+    ec = EducationCenter.objects.get(pk=ec_id)
+
+    print(wuzzy(ec))
+
+    if ec:
         if request.user.is_authenticated:
 
             today = Day.objects.get(name=days[datetime.date.today().strftime('%A')])
@@ -390,12 +410,73 @@ def finance(request: WSGIRequest):
     return render(request, 'tabs/finance.html', context)
 
 
+
+def exp(request: WSGIRequest):
+    ec_id = request.session.get('ec-id')
+    ec = EducationCenter.objects.get(pk=ec_id)
+    groups = Group.objects.filter(course__ec=ec)
+    peoples = People.objects.filter(ec=ec)
+
+    if request.method == 'POST':
+        ds = request.POST
+
+        month = ds.get('month').split('-')
+        people_id = ds.get('people')
+        summa = ds.get('summa')
+        group_id = ds.get('group')
+
+        month = datetime.date(int(month[0]), int(month[1]), 1)
+        group = Group.objects.get(pk=group_id)
+        people = People.objects.get(pk=people_id)
+
+        PaymentLog.objects.create(
+            ec=ec,
+            money=summa,
+            by=request.user,
+            group=group,
+            month=month,
+            people=people
+        )
+
+        people.balans += int(summa)
+        people.save()
+
+    context = {
+        'ec': ec,
+        'page_name': "Chegirma",
+        'payment_logs': PaymentLog.objects.filter(ec=ec),
+        'groups': groups,
+        'peoples': peoples,
+    }
+
+    return render(request, 'tabs/exp.html', context)
+
+
+
 def settings(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
     context = {
         'ec': ec,
     }
+
+
+    if request.method == 'POST':
+        ec.color = request.POST['color']
+        
+        print(ec.name != request.POST['ec-name'] and request.POST['ec-name'] != '' and get_clean_name(request.POST['ec-name']))
+
+        if ec.name != request.POST['ec-name'] and request.POST['ec-name'] != '' and get_clean_name(request.POST['ec-name']):
+            ec.name = request.POST['ec-name']
+
+        print(request.FILES)
+        ec.logo = request.FILES['logo'] if request.FILES.get('logo') else ec.logo
+
+        ec.save()
+
+        return redirect('settings')
+
+
     return render(request, 'tabs/settings.html', context)
 
 

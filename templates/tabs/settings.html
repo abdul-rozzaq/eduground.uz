@@ -3,5 +3,49 @@
 
 
 {% block content %}
-    <h1>Settings</h1>
+<h1>Settings</h1><br>
+
+
+<div class="wrapper settings">
+
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="rounded-image form-group">
+            <img src="{{ ec.logo.url }}" id="image-select" draggable="false"> 
+        </div>
+        <input type="file" accept="image/*" id="image-picker" class="d-none" name="logo">
+        <div class="form-group">
+            <label for="ec-name">O'quv markaz nomi</label>
+            <input type="text" name="ec-name" class="form-control" id="ec-name" required value="{{ ec.name }}">
+        </div>
+        <div class="form-group">
+            <label for="ec-color">Sayt rangi</label>
+            <input type="color" name="color" id="ec-color" value="{{ ec.color }}">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary text-white">Yangilash</button>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    const img = document.getElementById('image-select')
+    const picker = document.getElementById('image-picker')
+    const reader = new FileReader()
+
+
+    img.addEventListener('click', function (e) {
+        picker.click()
+    })
+
+
+
+
+    picker.addEventListener('change', function (e) {
+        reader.readAsDataURL(e.target.files[0]);
+        reader.onload = function (e) {
+            img.src = e.target.result;
+        };
+    })
+</script>
 {% endblock %}

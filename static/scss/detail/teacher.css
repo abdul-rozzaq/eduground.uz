@@ -1,0 +1,38 @@
+._wrapper {
+  padding: 10px;
+  border-radius: 3px;
+  gap: 10px;
+  display: flex;
+  width: 100%; }
+  ._wrapper .info, ._wrapper ._list {
+    padding: 10px;
+    border-radius: 3px; }
+  ._wrapper .info {
+    margin-top: 30px;
+    height: max-content;
+    background-color: white;
+    width: 30%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
+    font-weight: 500; }
+    ._wrapper .info .float {
+      float: right; }
+      ._wrapper .info .float button {
+        width: 40px;
+        height: 40px;
+        font-size: 12px;
+        border: none;
+        border-radius: 50%;
+        border: 1px solid #15a362;
+        padding: 10px; }
+    ._wrapper .info .center {
+      text-align: center; }
+    ._wrapper .info .profile-box {
+      margin: 0 auto;
+      transform: translateY(-50%);
+      width: 150px;
+      height: 150px;
+      background-color: #9d9d9d; }
+  ._wrapper ._list {
+    width: 70%; }
+
+/*# sourceMappingURL=teacher.css.map */

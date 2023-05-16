@@ -14,6 +14,7 @@ DEBUG = env.bool('DEBUG', default=False)
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,7 +59,9 @@ TEMPLATES = [
                 'xtime': 'home.templatetags.xtime',
                 'safetime': 'home.templatetags.safetime',
                 'attendance': 'home.templatetags.attendance',
-            
+                'color': 'home.templatetags.color',
+                'getPeoplesCount': 'home.templatetags.getPeoplesCount',
+                
             }
         },
     },
@@ -93,6 +96,7 @@ AUTH_PASSWORD_VALIDATORS = [
     #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     # },
 ]
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LANGUAGE_CODE = 'en-us'
@@ -106,9 +110,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
+print(MEDIA_ROOT)
 
 
 if DEBUG:
@@ -120,3 +124,15 @@ else:
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+CRONJOBS = [
+    # ('0 0 * * 6', 'config.cron.prr'),
+    ('*/1 * * * *', 'home.cron.my_cron_job'),
+]
+
+
+
+

@@ -5,11 +5,13 @@
   display: flex;
   width: 100%;
 }
+
 ._wrapper .info,
 ._wrapper ._list {
   padding: 10px;
   border-radius: 3px;
 }
+
 ._wrapper .info {
   height: max-content;
   background-color: white;
@@ -17,6 +19,7 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px;
   font-weight: 500;
 }
+
 ._wrapper .info .xbtn {
   width: 40px;
   height: 40px;
@@ -26,9 +29,11 @@
   border: 1px solid #15a362;
   padding: 10px;
 }
+
 ._wrapper .info .float {
   float: right;
 }
+
 ._wrapper ._list {
   width: 70%;
 }
@@ -42,6 +47,7 @@
   background-color: white;
   color: #15a362;
 }
+
 .list-button:hover, .save-button:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   background-color: #15a362;
@@ -53,9 +59,12 @@
   color: white;
   border: 1px solid #15a362;
 }
+
 .list-button.active:hover, .save-button:hover {
   background-color: #15a362;
   color: white;
 }
+
+
 
 /*# sourceMappingURL=group.css.map */
