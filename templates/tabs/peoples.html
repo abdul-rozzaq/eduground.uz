@@ -39,24 +39,34 @@
 {% endblock %}
 
 {% block form %}
-<div id="modal" class="back d-none" data-modal-name="add-modal"> 
+<div id="modal" class="back d-none" data-modal-name="add-modal">
     <div class="modal">
         <div class="close" id="close" data-modal-id="add-modal">&times;</div>
         <h2 class="text-center pb-3">Yangi talaba qo'shish</h2>
-    <form method="post">{% csrf_token %}
-        <input type="hidden" name="command" value="create">
-        <label for="full-name" class="h5">Ism familiya</label>
-        <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
-        
-        <label for="phone" class="h5">Tel raqam</label>
-        <input type="text" name="phone" class="form-control mb-3" id="phone" required>
-        
-        
-        <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
-    </form>
-        
+        <form method="post">{% csrf_token %}
+            <input type="hidden" name="command" value="create">
+            <label for="full-name" class="h5">Ism familiya</label>
+            <input type="text" name="full-name" class="form-control mb-3" id="full-name" required>
+
+            <label for="phone" class="h5">Tel raqam</label>
+            <input type="text" name="phone" class="form-control mb-3" id="phone" required>
+
+
+            <button class="btn btn-primary text-white" type="submit">Qo'shish</button>
+        </form>
+
     </div>
 </div>
 
-    
 {% endblock form %}
+
+{% block alert %}
+    {% if create_error %}
+        <div class="alert" id="alert" data-modal-name="alert">
+            <span class="alert-body">
+                {{ create_error | safe }}
+            </span>
+            <div class="close" id="close" data-modal-id="alert">&times;</div>
+        </div>
+    {% endif %}
+{% endblock alert %}

@@ -51,6 +51,9 @@
 	{% block context %}
 	{% endblock context %}
 
+	{% block alert %}
+	{% endblock alert %}
+
 	{% block form %}
 	{% endblock form %}
 
@@ -210,7 +213,7 @@
 	<script src="{% static 'assets/plugins/popper.min.js' %}"></script>
 	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'assets/js/app.js' %}"></script>
-	<!-- <script src="{% static 'js/modal.js' %}"></script> -->
+	<script src="{% static 'js/base.js' %}"></script>
 	<script src="{% static 'js/node.js' %}"></script>
 	<script src="{% static 'js/loader.js' %}"></script>
 	{% block script %}

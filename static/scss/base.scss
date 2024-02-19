@@ -201,3 +201,57 @@ a.nav-link {
         }
     }
 }
+
+.alert {
+    width: 500px;
+    position: fixed;
+    color: white;
+    bottom: 0;
+    right: 15px;
+    background-color: #ff0000c7;
+    animation: alertAnim;
+    animation-duration: 3s;
+    animation-play-state: running;
+    animation-iteration-count: infinite;
+
+    .close {
+        border-radius: 50%;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.777);
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        bottom: 0;
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        color: black;
+        border: none;
+        font-size: 25px;
+        transition: .3s linear all;
+        transform: translateY(-50%);
+        
+        &:hover {
+            background-color: #cad0d6;
+        }
+    }
+
+
+}
+
+@keyframes alertAnim {
+    0% {
+        opacity: 0;
+        display: none;
+    }
+
+    5% {
+        opacity: 1;
+        display: block;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}

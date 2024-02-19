@@ -24,6 +24,34 @@ days = {
 
 #     return process.extract(name, names, limit=10)
 
+def get_people(full_name):
+    try:
+        p = People.objects.get(full_name=full_name)
+
+        return False
+    except People.DoesNotExist:
+        return True
+        
+
+def calc_debt(ec: EducationCenter):
+    courses = Course.objects.filter(ec=ec)
+
+    summ = 0
+
+    for c in courses:
+        for g in Group.objects.filter(course=c):
+            for p in g.peoples.all():
+                summ += c.price
+
+
+    tl = round(ec.balans / ( summ / 100))
+    tml = 100 - tl
+
+    print((tl if tl < 101 else 100, tml if tml > 0 else 0))
+
+    return (tl if tl < 101 else 100, tml if tml > 0 else 0)
+    # return (0, 0)
+        
 
 def get_clean_name(name):
     try:
@@ -135,7 +163,8 @@ def excel_reader(file):
 def home_page(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
-
+    
+    
     # print(wuzzy(ec))
 
     if ec:
@@ -146,6 +175,8 @@ def home_page(request: WSGIRequest):
 
             context = {
                 'ec': ec,
+                'payed' : calc_debt(ec)[0],
+                'unpayed' : calc_debt(ec)[1],
                 'lids' : Lid.objects.filter(ec=ec),
                 'teachers' : Teacher.objects.filter(ec=ec),
                 'peoples' : People.objects.filter(ec=ec),
@@ -201,9 +232,10 @@ def lids(request: WSGIRequest):
             lid = Lid.objects.get(pk=lid_id)
 
             people = People.objects.create(full_name=lid.full_name, phone=lid.phone, ec=ec)
+            people.balans -= group.course.price
+            people.save()
 
             group.peoples.add(people)
-
             lid.delete()            
             
 
@@ -223,6 +255,14 @@ def peoples(request: WSGIRequest):
     ec_id = request.session.get('ec-id')
     ec = EducationCenter.objects.get(pk=ec_id)
 
+    peoples_list = People.objects.filter(ec__id=ec_id)
+    context = {
+        'peoples': peoples_list,
+        'ec': ec,
+        'page_name': 'Talaba',
+        'create_error' : f'<b>Abdusalomov Abdurazzoq</b> oldin ro\'yhatdan o\'tgan'
+    }
+
     command = request.POST.get('command')
     if request.method == 'POST' and command and command !='':
         if command == 'create':
@@ -230,12 +270,15 @@ def peoples(request: WSGIRequest):
                 full_name = request.POST.get('full-name')
                 phone = request.POST.get('phone')
                 
-
-                people = People.objects.create(
-                    ec=ec,
-                    full_name=full_name,
-                    phone=phone,
-                )
+                
+                if get_people(full_name):
+                    people = People.objects.create(
+                        ec=ec,
+                        full_name=full_name,
+                        phone=phone,
+                    )
+                else:
+                    context['create_error'] = f'{full_name} oldin ro\'yhatdan o\'tgan'
 
             except Exception as e:
                 print('Error', str(e).strip())
@@ -249,21 +292,17 @@ def peoples(request: WSGIRequest):
                         full_name = i[0].strip()
                         phone = i[1]
 
-                        People.objects.create(
-                            ec=ec,
-                            full_name=full_name,
-                            phone=phone,
-                        )
+                        if get_people(full_name):
+                            people = People.objects.create(
+                                ec=ec,
+                                full_name=full_name,
+                                phone=phone,
+                            )
 
             except Exception as e:
                 print('Error', str(e).strip())
 
-    peoples_list = People.objects.filter(ec__id=ec_id)
-    context = {
-        'peoples': peoples_list,
-        'ec': ec,
-        'page_name': 'Talaba',
-    }
+    
 
     return render(request, 'tabs/peoples.html', context)
 
@@ -397,8 +436,11 @@ def finance(request: WSGIRequest):
         )
 
         people.balans += int(summa)
+        people.ec.balans += int(summa)
+        
+        people.ec.save()
         people.save()
-
+    
     context = {
         'ec': ec,
         'page_name': "To'lov",

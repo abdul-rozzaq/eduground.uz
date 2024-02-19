@@ -1,6 +1,7 @@
 let openButtons = document.querySelectorAll('.open-modal')
 let modals = document.querySelectorAll('.back')
 let closeButtons = document.querySelectorAll('.close')
+let alerts = document.querySelectorAll('.alert')
 
 window.addEventListener('click', function (event) {
     if (event.target.getAttribute('class') != null && event.target.getAttribute('class').includes('back')) {
@@ -30,6 +31,16 @@ for (let z of closeButtons) {
             if (z.getAttribute('data-modal-id') == w.getAttribute('data-modal-name')) {
                 w.classList.add('d-none')
                 w.classList.remove('showAnim')
+            }
+        }
+    })
+}
+
+for (let z of closeButtons) {
+    z.addEventListener('click', (e) => {
+        for (let w of alerts) {
+            if (z.getAttribute('data-modal-id') == w.getAttribute('data-modal-name')) {
+                w.classList.add('d-none')
             }
         }
     })

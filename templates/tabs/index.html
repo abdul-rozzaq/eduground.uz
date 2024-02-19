@@ -43,16 +43,17 @@
     <div class="pie-chart chart">
         <div class="info">
             <div class="inf">
-                <span class="box1"></span>
-                <span class="text">To'langan <b>90%</b></span>
+                <span class="box1" style="background-color: #14A44D;"></span>
+                <span class="text">To'langan <b>{{ payed }}%</b></span>
             </div>
             <div class="inf">
-                <span class="box2"></span>
-                <span class="text">To'lanmagan <b>10%</b></span>
+                <span class="box2" style="background-color: #E4A11B;"></span>
+                <span class="text">To'lanmagan <b>{{ unpayed }}%</b></span>
             </div>
         </div>
-        <div class="pie-chart__item" style="background: conic-gradient(#14A44D 60%, #E4A11B 40%);"></div>
+        <div class="pie-chart__item" style="background: conic-gradient( {% if payed > unpayed %} #14A44D {{ payed }}%, #E4A11B {{ unpayed }}% {% else %} #E4A11B {{ unpayed }}%, #14A44D {{ payed }}% {% endif %} );"></div>
     </div>
+
 </div>
 
 <hr>

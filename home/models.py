@@ -7,6 +7,7 @@ class EducationCenter(models.Model):
     name = models.CharField(max_length=256)
     password = models.CharField(max_length=128)    
     admins = models.ManyToManyField(User)
+    balans = models.IntegerField(default=0)
     color = models.CharField(max_length=20, default='#15a362')
 
     def __str__(self) -> str:
